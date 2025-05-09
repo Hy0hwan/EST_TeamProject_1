@@ -1,4 +1,4 @@
-## git commit convention
+## commit convention
 
 
 | 타입         | 설명                     | 예시                      |
