@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct Team7App: App {
@@ -13,5 +14,8 @@ struct Team7App: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(
+            try! ModelContainer(for: Tag.self, Word.self)
+        )
     }
 }
