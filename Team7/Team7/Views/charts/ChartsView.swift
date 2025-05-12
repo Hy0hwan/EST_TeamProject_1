@@ -12,6 +12,22 @@ enum ChartType {
     case tag
 }
 
+struct TagData {
+    var tagName: String
+    var count: Int
+}
+
+extension TagData {
+    static func data() -> [TagData] {
+        [
+            TagData(tagName: "CS", count: 10),
+            TagData(tagName: "Swift", count: 10),
+            TagData(tagName: "Java", count: 10),
+            TagData(tagName: "기타", count: 20)
+        ]
+    }
+}
+
 struct ChartsView: View {
     @State private var selectedChart: ChartType = .month
 
@@ -46,12 +62,13 @@ struct ChartsView: View {
             if selectedChart == .month {
                 MonthChartView()
             } else {
-                TagChartView()
+                TagChartView(data: TagData.data())                
             }
 
             Spacer()
         }
         .padding()
+
     }
        
 }
