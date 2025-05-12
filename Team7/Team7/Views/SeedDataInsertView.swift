@@ -11,6 +11,7 @@ import SwiftData
 struct SeedDataInsertView: View {
     @Environment(\.modelContext) var context
     @State private var words: [Word] = []
+    @State private var tags: [Tag] = []
     
     var body: some View {
         VStack {
@@ -31,7 +32,7 @@ struct SeedDataInsertView: View {
             List {
                 Section("시드 데이터 리스트") {
                     ForEach(words, id: \.self) { word in
-                        Text("\(word.wordName) : \(word.wordDefinition)")
+                        Text("\(word.wordName) : \(word.wordDefinition) \n\(word.tag != nil ? word.tag!.name : "태그없음")")
                     }
                 }
             }
