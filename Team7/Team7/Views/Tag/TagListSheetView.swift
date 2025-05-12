@@ -6,27 +6,60 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct TagListSheetView: View {
-    @Binding var isTagSheetOpen: Bool
+    @Environment(\.modelContext) var context
     
-    @State var tagName = ""
+    @State var tags: [Tag] = []
+    
+    @Binding var isTagSheetOpen: Bool
+    @State var isSameTagNameExisting = false
+    
+    @State private var tagName = ""
+    @State var selectedTag: Tag?
     
     var body: some View {
         NavigationStack {
-            VStack {
-                HStack(spacing: 20) {
-                    TextField("태그 이름을 입력해서 태그를 생성하세요.", text: $tagName)
-                        .textFieldStyle(.roundedBorder)
+            VStack(spacing: 20) {
+                VStack(alignment: .leading) {
+                    SectionTitle(title: "새로운 태그 생성")
                     
-                    Button {
+                    HStack(spacing: 20) {
+                        TextField("태그 이름", text: $tagName)
+                            .textFieldStyle(.roundedBorder)
+                            .autocorrectionDisabled()
+                            .multilineTextAlignment(.leading)
                         
-                    } label: {
-                        Text("저장하기")
+                        Button {
+                            saveTag(context: context, tagName: tagName)
+                            tagName = ""
+                        } label: {
+                            Text("저장하기")
+                        }
+                        .disabled(tagName.isEmpty)
                     }
-                    
                 }
-                .toolbar {
+//                
+                VStack(alignment: .leading) {
+                    SectionTitle(title: "기존 태그 목록")
+                    
+                    List {
+                        ForEach($tags) { tag in
+                            Button {
+                                print(tag)
+                            } label: {
+                                TagDisplayView(tag: tag, isEditable: false)
+                            }
+                        }
+                        .onDelete(perform: delete)
+                    }
+                    .listStyle(.plain)
+                }
+            }
+            .padding()
+            .toolbar {
+                ToolbarItem {
                     Button {
                         isTagSheetOpen = false
                     } label: {
@@ -34,15 +67,61 @@ struct TagListSheetView: View {
                     }
                 }
             }
-            .padding()
+            .alert("태그 저장 실패", isPresented: $isSameTagNameExisting) {
+                Button("확인") {
+                    isSameTagNameExisting = false
+                }
+            } message: {
+                Text("이미 등록된 태그입니다.")
+            }
+        }
+        .onAppear {
+            loadTags()
         }
     }
 }
 
-#Preview {
-    TagDisplayView(selectedTag: .constant(Tag(name: "문법")))
-        .sheet(isPresented: .constant(true)) {
-            TagListSheetView(isTagSheetOpen: .constant(true))
-                .presentationDetents([.medium])
+extension TagListSheetView {
+    func loadTags() {
+        let fetchDescriptor = FetchDescriptor<Tag>()
+        if let fetchedTags = try? context.fetch(fetchDescriptor) {
+            self.tags = fetchedTags
         }
+    }
+    
+    func saveTag(context: ModelContext, tagName: String) {
+        if tags.first(where: { $0.name == tagName }) != nil {
+            isSameTagNameExisting = true
+        } else {
+            let newTag = Tag(name: tagName)
+            context.insert(newTag)
+            
+            do {
+                try context.save()
+            } catch {
+                print("Failed to save the data: \(error)")
+            }
+        }
+        loadTags()
+    }
+    
+    func delete(_ indexSet: IndexSet) {
+        for index in indexSet {
+            context.delete(tags[index])
+        }
+    }
+}
+
+struct SectionTitle: View {
+    var title: String
+    
+    var body: some View {
+        Text(title)
+            .font(.footnote)
+            .foregroundStyle(.gray)
+    }
+}
+
+#Preview {
+    TagListSheetView(isTagSheetOpen: .constant(false))
 }

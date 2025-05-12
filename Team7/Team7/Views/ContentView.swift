@@ -26,7 +26,11 @@ struct ContentView: View {
                         Text("시드 데이터 관리하기")
                     }
                     
-                    TagDisplayView(selectedTag: $selectedTag)
+                    Button {
+                        isTagSheetOpen = true
+                    } label: {
+                        TagDisplayView(tag: $selectedTag, isEditable: true)
+                    }
                 }
                 .navigationDestination(isPresented: $isSeedDataViewOpen) {
                     SeedDataInsertView()

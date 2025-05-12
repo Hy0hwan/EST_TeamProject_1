@@ -11,7 +11,6 @@ import SwiftData
 struct SeedDataInsertView: View {
     @Environment(\.modelContext) var context
     @State private var words: [Word] = []
-    @State private var tags: [Tag] = []
     
     var body: some View {
         VStack {
@@ -39,6 +38,7 @@ struct SeedDataInsertView: View {
             .listStyle(.plain)
             .onAppear {
                 loadWords()
+                print(words.count)
             }
         }
     }
