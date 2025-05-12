@@ -47,6 +47,7 @@ struct MonthChartView: View {
 //                y: .value("Count", stat.count)
 //            )
             
+            //툴팁 설정
             .annotation(position: .overlay) {
                 Text("\(stat.count)개")
                     .font(.caption)
