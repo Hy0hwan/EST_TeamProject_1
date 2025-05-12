@@ -11,12 +11,17 @@ import SwiftData
 @Model
 
 final class Word {
-    var wordName: String
-    var wordDefinition: String
-    var tag: Tag?
-    var createdAt: Date
+    var wordName: String // 단어 이름
+    var wordDefinition: String // 단어 뜻
+    var tag: Tag? // 태그, 옵셔널 항목이므로 사용 시에는 unwrapping 필요
+    var createdAt: Date // 생성일
     
-    init(wordName: String, wordDefinition: String, tag: Tag?, createdAt: Date = .now) {
+    init(
+        wordName: String,
+        wordDefinition: String,
+        tag: Tag?,
+        createdAt: Date = .now // 데이터 생성 시에 생성일이 자동으로 입력
+    ) {
         self.wordName = wordName
         self.wordDefinition = wordDefinition
         self.tag = tag
