@@ -23,7 +23,7 @@ struct AppView: View {
                 }
         }
         // 태그 관리 화면으로 가는 진입점이 없어서 임시로 추가해 놓음
-        TagContainerView(isButtonType: true)
+        TagContainerView(tag: "문법", isButtonType: true)
     }
 }
 
