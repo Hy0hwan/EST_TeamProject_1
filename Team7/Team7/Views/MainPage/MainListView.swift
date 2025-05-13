@@ -14,12 +14,13 @@ struct MainListView: View {
     @State private var searchText: String = ""
     @State private var isShowingCreateView = false
     @State private var selectedWord: Word? = nil
+    @State private var selectedTag: String? = nil
 
     var filteredWords: [Word] {
-        if searchText.isEmpty {
-            return words
-        } else {
-            return words.filter { $0.wordName.localizedStandardContains(searchText) }
+        words.filter { word in
+            let matchesSearch = searchText.isEmpty || word.wordName.localizedStandardContains(searchText)
+            let matchesTag = selectedTag == nil || word.tag == selectedTag
+            return matchesSearch && matchesTag
         }
     }
 
@@ -35,7 +36,7 @@ struct MainListView: View {
 
                     Spacer()
 
-                    // 검색창
+                    // searchbar
                     HStack {
                         TextField("검색할 단어를 입력하세요", text: $searchText)
                             .textFieldStyle(PlainTextFieldStyle())
@@ -53,7 +54,7 @@ struct MainListView: View {
                         .padding(.leading)
 
                     // 태그 필터 바 (선택)
-                    TagFilterView(words: words)
+                    TagFilterView(words: words, selectedTag: $selectedTag)
 
                     // 단어 리스트
                     List {

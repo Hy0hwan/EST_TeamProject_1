@@ -10,6 +10,7 @@ import SwiftUI
 
 struct TagFilterView: View {
     let words: [Word]
+    @Binding var selectedTag: String?
 
     var tags: [String] {
         Array(Set(words.compactMap { $0.tag }))
@@ -19,9 +20,19 @@ struct TagFilterView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
                 ForEach(tags, id: \.self) { tag in
-                    TagContainerView(tag: tag, isButtonType: false)
+                    Button(action: {
+                        selectedTag = (selectedTag == tag) ? nil : tag
+                    }) {
+                        TagContainerView(tag: tag, isButtonType: false
+                        )
+                    .background(
+                        Capsule()
+                            .fill(selectedTag == tag ? Color.blue.opacity(0.6) : Color.clear)
+                    )
                 }
+                .buttonStyle(PlainButtonStyle())
             }
+        }
             .padding(.horizontal)
         }
     }
@@ -35,5 +46,5 @@ struct TagFilterView: View {
         Word(wordName: "옵셔널", wordDefinition: "값이 있을 수도, 없을 수도 있는 타입.", tag: sampleTag1),
         Word(wordName: "뷰", wordDefinition: "사용자 인터페이스를 구성하는 요소.", tag: sampleTag2)
     ]
-    TagFilterView(words: sampleWords)
+    return TagFilterView(words: sampleWords, selectedTag: .constant(nil))
 }
