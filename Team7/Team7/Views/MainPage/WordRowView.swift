@@ -16,7 +16,7 @@ struct WordRowView: View {
                 .foregroundColor(.primary)
             Spacer()
             if let tag = word.tag {
-                Text(tag.name)
+                Text(tag)
                     .font(.caption)
                     .padding(6)
                     .background(Color.gray.opacity(0.2))
@@ -31,7 +31,7 @@ struct WordRowView: View {
 
 #Preview {
     // 샘플 태그 생성
-    let sampleTag = Tag(name: "문법")
+    let sampleTag = "문법"
     // 샘플 단어 생성
     let sampleWord = Word(
         wordName: "옵셔널",

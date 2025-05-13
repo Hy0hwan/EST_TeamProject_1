@@ -17,17 +17,19 @@ struct ContentView: View {
             // 주입하신 이후에는 사용할 필요가 없으니 주석 처리 해주세요.
             NavigationStack {
                 VStack {
-//                    Button {
-//                        isSeedDataViewOpen = true
-//                    } label: {
-//                        Text("시드 데이터 관리하기")
-//                    }
+                    Button {
+                        isSeedDataViewOpen = true
+                    } label: {
+                        Text("시드 데이터 관리하기")
+                    }
+
                     
                     // 버튼으로 눌려야할 때
                     TagContainerView(isButtonType: true)
                     
                     // 보여주기만 할 때
                     TagContainerView(isButtonType: false)
+
                 }
                 .navigationDestination(isPresented: $isSeedDataViewOpen) {
                     SeedDataInsertView()
