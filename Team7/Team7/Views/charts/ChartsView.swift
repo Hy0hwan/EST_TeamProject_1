@@ -67,6 +67,7 @@ struct ChartsView: View {
                 TagChartView(data: TagData.tagData())
             }
             
+            
             Spacer()
         }
         .padding()
