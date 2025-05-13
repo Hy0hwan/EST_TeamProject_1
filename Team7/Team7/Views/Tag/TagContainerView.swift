@@ -37,18 +37,18 @@ struct TagContainerView: View {
 extension TagContainerView {
 }
 
-enum TagColors: String {
+enum TagColors: String, CaseIterable {
     case red, orange, yellow, green, blue, indigo, purple
     
-    var color: Color {
+    var hex: String {
         switch self {
-        case .red: return .red
-        case .orange: return .orange
-        case .yellow: return .yellow
-        case .green: return .green
-        case .blue: return .blue
-        case .indigo: return .indigo
-        case .purple: return .purple
+        case .red: return "ffadad"
+        case .orange: return "ffd6a5"
+        case .yellow: return "f8ef8b"
+        case .green: return "caffbf"
+        case .blue: return "9bf6ff"
+        case .indigo: return "a0c4ff"
+        case .purple: return "bdb2ff"
         }
     }
 }

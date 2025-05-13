@@ -47,7 +47,6 @@ struct MainListView: View {
                     .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray.opacity(0.4)))
                     .padding(.horizontal)
 
-
                     Text("태그")
                         .font(.subheadline)
                         .fontWeight(.bold)

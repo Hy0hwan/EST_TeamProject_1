@@ -38,7 +38,6 @@ struct SeedDataInsertView: View {
             .listStyle(.plain)
             .onAppear {
                 loadWords()
-                print(words.count)
             }
         }
     }
