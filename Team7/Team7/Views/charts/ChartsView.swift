@@ -18,7 +18,26 @@ struct TagData {
 }
 
 extension TagData {
-    static func data() -> [TagData] {
+    
+    static func monthData() -> [MonthData] {
+        [
+            MonthData(monthName: "1월", count: 4),
+            MonthData(monthName: "2월", count: 6),
+            MonthData(monthName: "3월", count: 9),
+            MonthData(monthName: "4월", count: 3),
+            MonthData(monthName: "5월", count: 4),
+            MonthData(monthName: "6월", count: 6),
+            MonthData(monthName: "7월", count: 9),
+            MonthData(monthName: "8월", count: 3),
+            MonthData(monthName: "9월", count: 4),
+            MonthData(monthName: "10월", count: 6),
+            MonthData(monthName: "11월", count: 9),
+            MonthData(monthName: "12월", count: 3),
+        ]
+    }
+    
+    
+    static func tagData() -> [TagData] {
         [
             TagData(tagName: "CS", count: 10),
             TagData(tagName: "Swift", count: 10),
@@ -60,9 +79,9 @@ struct ChartsView: View {
 
             // 조건부 랜더링
             if selectedChart == .month {
-                MonthChartView()
+                MonthChartView(data: TagData.monthData())
             } else {
-                TagChartView(data: TagData.data())                
+                TagChartView(data: TagData.tagData())
             }
 
             Spacer()

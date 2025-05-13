@@ -23,8 +23,12 @@ struct AppView: View {
                 }
         }
         // 태그 관리 화면으로 가는 진입점이 없어서 임시로 추가해 놓음
+<<<<<<< HEAD
         TagContainerView(isButtonType: true)
         ContentView()
+=======
+        TagContainerView(tag: "문법", isButtonType: true)
+>>>>>>> 6934a2af0224c151c3c64125b89468aae7b6fa5d
     }
 }
 
