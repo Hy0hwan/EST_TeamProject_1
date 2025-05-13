@@ -11,9 +11,10 @@ import SwiftData
 struct TagContainerView: View {
     @Environment(\.modelContext) var context
     
+    var tag: String
+    
     @State var isTagSheetOpen = false
     @State var isButtonType = false
-    @State var tag: Tag?
     
     var body: some View {
         VStack {
@@ -21,14 +22,14 @@ struct TagContainerView: View {
                 Button {
                     isTagSheetOpen = true
                 } label: {
-                    TagView(tag: tag, isEditable: isButtonType)
+                    TagView(tag: Tag(name: tag), isEditable: isButtonType)
                 }
                 .sheet(isPresented: $isTagSheetOpen, content: {
                     TagListSheetView(isTagSheetOpen: $isTagSheetOpen)
                         .presentationDetents([.medium])
                 })
             } else {
-                TagView(tag: tag, isEditable: isButtonType)
+                TagView(tag: Tag(name: tag), isEditable: isButtonType)
             }
         }
     }
@@ -54,5 +55,5 @@ enum TagColors: String, CaseIterable {
 }
 
 #Preview {
-    TagContainerView()
+    TagContainerView(tag: "test")
 }
