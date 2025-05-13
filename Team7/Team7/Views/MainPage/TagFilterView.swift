@@ -18,7 +18,9 @@ struct TagFilterView: View {
     let words: [Word]
 
     var tags: [String] {
-        Array(Set(words.compactMap { $0.tag?.name }))
+
+
+        Array(Set(words.compactMap { $0.tag }))
     }
 
     var body: some View {
@@ -39,8 +41,8 @@ struct TagFilterView: View {
 
 #Preview {
     // 샘플 태그와 단어 준비
-    let sampleTag1 = Tag(name: "문법")
-    let sampleTag2 = Tag(name: "UI")
+    let sampleTag1 = "문법"
+    let sampleTag2 = "UI"
     let sampleWords = [
         Word(wordName: "옵셔널", wordDefinition: "값이 있을 수도, 없을 수도 있는 타입.", tag: sampleTag1),
         Word(wordName: "뷰", wordDefinition: "사용자 인터페이스를 구성하는 요소.", tag: sampleTag2)
