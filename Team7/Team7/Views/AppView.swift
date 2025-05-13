@@ -12,8 +12,8 @@ struct AppView: View {
         TabView {
             MainListView()
                 .tabItem {
-                    Image(systemName: "list.bullet")
-                    Text("단어 목록")
+                    Image(systemName: "text.book.closed.fill")
+                    Text("단어장")
                 }
 
             ChartsView()
