@@ -61,5 +61,5 @@ struct TagView: View {
 }
 
 #Preview {
-    TagContainerView(isButtonType: true)
+    TagContainerView(tag: "test", isButtonType: true) 
 }
