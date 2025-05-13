@@ -24,7 +24,7 @@ struct Team7App: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainListView()
         }
         .modelContainer(
             try! ModelContainer(for: Tag.self, Word.self) // 기존과 같이 강제 초기화
