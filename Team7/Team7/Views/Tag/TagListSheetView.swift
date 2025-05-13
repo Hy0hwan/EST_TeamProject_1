@@ -31,6 +31,7 @@ struct TagListSheetView: View {
                         ForEach($tags) { tag in
                             Button {
                                 selectedTag = tag.wrappedValue // @경언님: 여기서 selectedTag 가 유저가 선택한 이름으로 업데이트됨
+                                isTagSheetOpen = false
                             } label: {
                                 TagView(tag: tag.wrappedValue)
                             }
