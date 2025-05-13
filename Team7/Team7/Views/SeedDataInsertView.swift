@@ -30,7 +30,7 @@ struct SeedDataInsertView: View {
             
             List {
                 Section("시드 데이터 리스트") {
-                    ForEach($words, id: \.self) { word in
+                    ForEach(words, id: \.self) { word in
                         Text("\(word.wordName) : \(word.wordDefinition)")
                     }
                 }
@@ -40,6 +40,7 @@ struct SeedDataInsertView: View {
                 loadWords()
             }
         }
+        .padding()
     }
 }
 
@@ -82,7 +83,47 @@ extension SeedDataInsertView {
             Word(wordName: "프로퍼티 래퍼", wordDefinition: "@State, @Binding 등 속성을 감싸는 래퍼.", tag: "문법"),
             Word(wordName: "모델", wordDefinition: "데이터를 표현하는 구조체 또는 클래스.", tag: nil),
             Word(wordName: "NavigationStack", wordDefinition: "뷰 간의 이동을 관리하는 스택 기반 네비게이션 구조.", tag: "비동기"),
-            Word(wordName: "Task", wordDefinition: "비동기 작업을 실행하는 단위.", tag: "비동기")
+            Word(wordName: "Task", wordDefinition: "비동기 작업을 실행하는 단위.", tag: "비동기"),
+            Word(wordName: "옵셔널 체이닝", wordDefinition: "옵셔널 값이 존재할 경우에만 속성, 메서드, 서브스크립트에 접근하는 문법.", tag: "문법"),
+            Word(wordName: "강제 언래핑", wordDefinition: "옵셔널 값이 nil이 아님을 확신하고 '!'를 사용해 값을 꺼내는 방식.", tag: "문법"),
+            Word(wordName: "옵셔널 바인딩", wordDefinition: "if let 또는 guard let으로 옵셔널을 안전하게 꺼내는 방법.", tag: "문법"),
+            Word(wordName: "AnyView", wordDefinition: "타입을 숨겨 여러 다른 뷰를 같은 컨텍스트에 사용할 수 있도록 하는 래퍼 뷰.", tag: "UI"),
+            Word(wordName: "NavigationLink", wordDefinition: "다른 뷰로 이동할 수 있는 네비게이션 요소.", tag: "UI"),
+            Word(wordName: "ObservableObject", wordDefinition: "뷰 모델에서 상태를 공유할 수 있도록 하는 프로토콜.", tag: "문법"),
+            Word(wordName: "Published", wordDefinition: "ObservableObject에서 속성의 변경을 알리는 속성 래퍼.", tag: "문법"),
+            Word(wordName: "Binding", wordDefinition: "부모 뷰와 자식 뷰 사이에서 상태를 공유할 수 있는 속성 래퍼.", tag: "문법"),
+            Word(wordName: "StateObject", wordDefinition: "뷰에서 소유하고 관리하는 상태 객체를 선언할 때 사용하는 속성 래퍼.", tag: "문법"),
+            Word(wordName: "EnvironmentObject", wordDefinition: "앱 전역에서 공유하는 상태 객체를 주입받을 때 사용하는 속성 래퍼.", tag: "문법"),
+            Word(wordName: "Form", wordDefinition: "설정 화면 등에서 자주 쓰이는 리스트 기반 UI 레이아웃.", tag: "UI"),
+            Word(wordName: "ScrollView", wordDefinition: "스크롤 가능한 컨테이너 뷰.", tag: "UI"),
+            Word(wordName: "GeometryReader", wordDefinition: "레이아웃의 위치와 크기 정보를 읽어올 수 있는 뷰.", tag: "UI"),
+            Word(wordName: "Spacer", wordDefinition: "여백을 만들어주는 뷰 레이아웃 도우미.", tag: "UI"),
+            Word(wordName: "Animation", wordDefinition: "뷰의 변화에 애니메이션 효과를 추가하는 기능.", tag: "UI"),
+            Word(wordName: "Transition", wordDefinition: "뷰의 삽입/삭제 시 애니메이션을 정의하는 기능.", tag: "UI"),
+            Word(wordName: "onAppear", wordDefinition: "뷰가 화면에 나타날 때 호출되는 이벤트.", tag: "UI"),
+            Word(wordName: "onDisappear", wordDefinition: "뷰가 화면에서 사라질 때 호출되는 이벤트.", tag: "UI"),
+            Word(wordName: "Task", wordDefinition: "비동기 코드를 실행하기 위한 기본 단위.", tag: "비동기"),
+            Word(wordName: "async/await", wordDefinition: "비동기 코드를 동기 코드처럼 작성할 수 있는 구문.", tag: "비동기"),
+            Word(wordName: "MainActor", wordDefinition: "메인 스레드에서 실행되도록 보장하는 속성 또는 컨텍스트.", tag: "비동기"),
+            Word(wordName: "TaskGroup", wordDefinition: "여러 개의 비동기 작업을 동시에 실행하고 결과를 모으는 구조.", tag: "비동기"),
+            Word(wordName: "withTaskCancellationHandler", wordDefinition: "비동기 작업이 취소될 때 클린업 코드를 실행할 수 있도록 함.", tag: "비동기"),
+            Word(wordName: "Error", wordDefinition: "Swift의 에러 처리 프로토콜.", tag: "문법"),
+            Word(wordName: "try?", wordDefinition: "오류가 발생할 경우 nil을 반환하는 옵셔널 try 구문.", tag: "문법"),
+            Word(wordName: "try!", wordDefinition: "오류가 발생하지 않는다고 확신할 때 사용하는 위험한 try 구문.", tag: "문법"),
+            Word(wordName: "guard", wordDefinition: "조건이 충족되지 않으면 빠르게 탈출하는 제어 구문.", tag: "문법"),
+            Word(wordName: "if let", wordDefinition: "옵셔널을 안전하게 언래핑할 때 사용하는 조건문.", tag: "문법"),
+            Word(wordName: "LazyVStack", wordDefinition: "필요할 때만 그려지는 수직 스택 뷰.", tag: "UI"),
+            Word(wordName: "List", wordDefinition: "표 형태로 데이터를 나열하는 기본 UI 요소.", tag: "UI"),
+            Word(wordName: "HStack", wordDefinition: "수평 방향으로 뷰를 배치하는 컨테이너 뷰.", tag: "UI"),
+            Word(wordName: "ZStack", wordDefinition: "뷰를 겹쳐서 배치할 때 사용하는 컨테이너 뷰.", tag: "UI"),
+            Word(wordName: "Observable", wordDefinition: "값이 바뀔 때마다 알림을 받을 수 있는 객체.", tag: "문법"),
+            Word(wordName: "Button", wordDefinition: "사용자와의 상호작용을 위한 터치 가능한 UI 요소.", tag: "UI"),
+            Word(wordName: "Toggle", wordDefinition: "켜짐/꺼짐 상태를 가진 스위치 UI 요소.", tag: "UI"),
+            Word(wordName: "Picker", wordDefinition: "선택지를 선택할 수 있는 UI 요소.", tag: "UI"),
+            Word(wordName: "DatePicker", wordDefinition: "날짜나 시간을 선택할 수 있는 UI 요소.", tag: "UI"),
+            Word(wordName: "Alert", wordDefinition: "간단한 메시지를 보여주는 경고창.", tag: "UI"),
+            Word(wordName: "Sheet", wordDefinition: "하단에서 올라오는 모달 뷰.", tag: "UI"),
+            Word(wordName: "FullScreenCover", wordDefinition: "전체 화면을 덮는 모달 뷰.", tag: "UI")
         ]
         
         for word in dummyWords {
