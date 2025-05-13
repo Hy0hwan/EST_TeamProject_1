@@ -5,12 +5,6 @@
 //  Created by 이유정 on 5/13/25.
 //
 
-//
-//  TagFilterView.swift
-//  Team7
-//
-//  Created by 이유정 on 5/12/25.
-//
 
 import SwiftUI
 
@@ -18,8 +12,6 @@ struct TagFilterView: View {
     let words: [Word]
 
     var tags: [String] {
-
-
         Array(Set(words.compactMap { $0.tag }))
     }
 
@@ -32,6 +24,7 @@ struct TagFilterView: View {
                         .padding(.vertical, 6)
                         .background(Color.gray.opacity(0.2))
                         .clipShape(Capsule())
+  //                  TagContainerView(isButtonType: false, tag: tag)
                 }
             }
             .padding(.horizontal)
