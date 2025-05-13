@@ -25,7 +25,7 @@ struct TagView: View {
                 .font(.footnote)
                 .padding(.horizontal, 4)
                 .padding(.vertical, 2)
-                .background(.red.opacity(0.5))
+                .background(Color(hexString: TagColors(rawValue: tag!.tagColor)?.hex ?? "000000", opacity: 0.5))
                 .clipShape(RoundedRectangle(cornerRadius: 2))
                 .foregroundStyle(.foreground.opacity(0.8))
             } else {
@@ -49,15 +49,17 @@ struct TagView: View {
                     .font(.footnote)
                     .padding(.horizontal, 4)
                     .padding(.vertical, 2)
-                    .background(.red.opacity(0.5))
+                    .background(Color(hexString: TagColors(rawValue: tag!.tagColor)?.hex ?? "000000", opacity: 0.5))
                     .clipShape(RoundedRectangle(cornerRadius: 2))
                     .foregroundStyle(.foreground.opacity(0.8))
+                    .onAppear {
+                        
+                    }
             }
         }
     }
 }
 
 #Preview {
-    TagView(isEditable: false)
-    TagView(isEditable: true)
+    TagContainerView(tag: "test", isButtonType: true) 
 }

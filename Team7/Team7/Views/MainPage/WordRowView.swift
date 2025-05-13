@@ -16,11 +16,7 @@ struct WordRowView: View {
                 .foregroundColor(.primary)
             Spacer()
             if let tag = word.tag {
-                Text(tag)
-                    .font(.caption)
-                    .padding(6)
-                    .background(Color.gray.opacity(0.2))
-                    .clipShape(Capsule())
+                TagContainerView(tag: tag, isButtonType: false)
             }
         }
         .padding()

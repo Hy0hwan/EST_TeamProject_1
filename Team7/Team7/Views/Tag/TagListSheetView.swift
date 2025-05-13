@@ -19,7 +19,7 @@ struct TagListSheetView: View {
     @State var isSameTagNameExisting = false
     
     @State private var tagName = ""
-    @State var selectedTag: Tag?
+    @State var selectedTag: Tag? // @경언님: 태그 선택 후 저장을 눌러 Word 값을 업데이트하실 때 쓰실 수 있게 만들어놓은 변수
     
     var body: some View {
         NavigationStack {
@@ -30,7 +30,7 @@ struct TagListSheetView: View {
                     List {
                         ForEach($tags) { tag in
                             Button {
-                                print(tag.name.wrappedValue)
+                                selectedTag = tag.wrappedValue // @경언님: 여기서 selectedTag 가 유저가 선택한 이름으로 업데이트됨
                             } label: {
                                 TagView(tag: tag.wrappedValue)
                             }
@@ -87,7 +87,9 @@ struct TagListSheetView: View {
 
 extension TagListSheetView {
     func loadTags() {
-        let fetchDescriptor = FetchDescriptor<Tag>()
+        let fetchDescriptor = FetchDescriptor<Tag>(
+            sortBy: [ .init(\.name) ]
+        )
         if let fetchedTags = try? context.fetch(fetchDescriptor) {
             self.tags = fetchedTags
         }
@@ -113,10 +115,6 @@ extension TagListSheetView {
         for index in indexSet {
             context.delete(tags[index])
         }
-    }
-    
-    func search() {
-        
     }
 }
 

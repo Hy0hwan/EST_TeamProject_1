@@ -11,9 +11,10 @@ import SwiftData
 struct TagContainerView: View {
     @Environment(\.modelContext) var context
     
+    var tag: String
+    
     @State var isTagSheetOpen = false
     @State var isButtonType = false
-    @State var tag: Tag?
     
     var body: some View {
         VStack {
@@ -21,14 +22,14 @@ struct TagContainerView: View {
                 Button {
                     isTagSheetOpen = true
                 } label: {
-                    TagView(tag: tag, isEditable: isButtonType)
+                    TagView(tag: Tag(name: tag), isEditable: isButtonType)
                 }
                 .sheet(isPresented: $isTagSheetOpen, content: {
                     TagListSheetView(isTagSheetOpen: $isTagSheetOpen)
                         .presentationDetents([.medium])
                 })
             } else {
-                TagView(tag: tag, isEditable: isButtonType)
+                TagView(tag: Tag(name: tag), isEditable: isButtonType)
             }
         }
     }
@@ -37,22 +38,22 @@ struct TagContainerView: View {
 extension TagContainerView {
 }
 
-enum TagColors: String {
+enum TagColors: String, CaseIterable {
     case red, orange, yellow, green, blue, indigo, purple
     
-    var color: Color {
+    var hex: String {
         switch self {
-        case .red: return .red
-        case .orange: return .orange
-        case .yellow: return .yellow
-        case .green: return .green
-        case .blue: return .blue
-        case .indigo: return .indigo
-        case .purple: return .purple
+        case .red: return "ffadad"
+        case .orange: return "ffd6a5"
+        case .yellow: return "f8ef8b"
+        case .green: return "caffbf"
+        case .blue: return "9bf6ff"
+        case .indigo: return "a0c4ff"
+        case .purple: return "bdb2ff"
         }
     }
 }
 
 #Preview {
-    TagContainerView()
+    TagContainerView(tag: "test")
 }
