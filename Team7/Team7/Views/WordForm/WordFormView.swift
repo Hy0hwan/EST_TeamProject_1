@@ -15,7 +15,7 @@ struct WordFormView: View {
     @State private var tag: String = ""
     @State private var meaning: String = ""
     
-    @State private var navigateToDetail = false
+    @State private var navigateToDetail = true
     @State private var savedWord: Word? = nil
     
     var body: some View {
@@ -31,10 +31,12 @@ struct WordFormView: View {
                         let newWord = Word(
                             wordName: protocolword,
                             wordDefinition: meaning,
-                            tag: Tag(name: tag)
-                            )
+                            tag: nil
+                        )
                         context.insert(newWord)
-                        
+                        savedWord = newWord
+                        navigateToDetail = true
+                        print("저장됨: \(newWord.wordName) / \(newWord.wordDefinition)")
                         
                     }
                 }
@@ -66,7 +68,7 @@ struct WordFormView: View {
                     
                     TextEditor(text: $meaning)
                         .frame(height: 200)
-                        .padding(.top, 8) // 텍스트를 위로 밀어올림
+                        .padding(.top, 8)
                         .padding(.horizontal, 4)
                         .background(Color.white)
                         .overlay(
@@ -78,10 +80,97 @@ struct WordFormView: View {
                 
                 Spacer()
                 
+                NavigationLink(destination: destinationView, isActive: $navigateToDetail) {
+                    EmptyView()
+                }
+                .hidden()
+            }
+        }
+    }
+    var destinationView: some View {
+        Group {
+            if let word = savedWord {
+                WordFormView2(word: word)
+            } else {
+                EmptyView()
             }
         }
     }
     
-    #Preview {
-        WordFormView()
+    
+    
+    // Detail View
+    struct WordFormView2: View {
+        var word: Word
+        
+        var body: some View {
+            VStack(spacing: 15) {
+                HStack {
+                    Button("삭제") {}
+                    Spacer()
+                    Button("수정") {}
+                }
+                .padding(.horizontal)
+                .padding(.top)
+                
+                Text("단어 상세")
+                    .font(.title2)
+                    .bold()
+                    .frame(height: 20)
+                
+                HStack(spacing: 4) {
+                    Text(word.wordName)
+                        .font(.body)
+                    Spacer()
+                    if let tag = word.tag?.name {
+                        Text(tag)
+                            .font(.caption)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 4)
+                            .background(Color.black)
+                            .foregroundColor(.white)
+                            .clipShape(Capsule())
+                    }
+                }
+                .padding(.horizontal, 12)
+                .padding(.vertical, 15)
+                .background(Color(.systemGray6))
+                .cornerRadius(12)
+                .padding(.horizontal)
+                
+                HStack {
+                    Text(formattedDate(word.createdAt))
+                        .font(.subheadline)
+                        .foregroundColor(.black)
+                    Spacer()
+                }
+                .padding(.horizontal)
+                
+                HStack(spacing: 4) {
+                    Text(word.wordDefinition)
+                        .font(.body)
+                    Spacer()
+                }
+                .padding(.horizontal, 12)
+                .padding(.vertical, 15)
+                .background(Color(.systemGray6))
+                .cornerRadius(12)
+                .padding(.horizontal)
+                
+                Spacer()
+            }
+        }
+        
+        func formattedDate(_ date: Date) -> String {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy. MM. dd"
+            return formatter.string(from: date)
+        }
     }
+    
+}
+
+
+#Preview {
+    WordFormView()
+}
