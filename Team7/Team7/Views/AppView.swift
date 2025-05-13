@@ -22,6 +22,8 @@ struct AppView: View {
                     Text("통계")
                 }
         }
+        // 태그 관리 화면으로 가는 진입점이 없어서 임시로 추가해 놓음
+        TagContainerView(isButtonType: true)
     }
 }
 
