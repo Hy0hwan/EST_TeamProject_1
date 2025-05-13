@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-extension Color {
+extension Color { // Hex 코드값을 색상으로 변환해주는 익스텐션
     init(hexString: String, opacity: Double = 1.0) {
         let hex: Int = Int(hexString, radix: 16)!
         
