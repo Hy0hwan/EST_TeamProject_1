@@ -4,14 +4,17 @@
 //
 //  Created by 김경언 on 5/12/25.
 //
-
 import SwiftUI
+import SwiftData
 
 struct WordFormView2: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
-    
+
+    @State private var isShowingEdit = false  // 수정 화면 전환용
+
     var word: Word
+    var onDeleted: (() -> Void)? = nil
 
     var body: some View {
         VStack(spacing: 15) {
@@ -19,23 +22,16 @@ struct WordFormView2: View {
                 Button("삭제") {
                     context.delete(word)
                     try? context.save()
-                    
+                    print("삭제 성공: \(word.wordName)")
+                    onDeleted?()
                     dismiss()
-                    
-//                    Button("삭제") {
-//                        context.delete(word)
-//                        do {
-//                            try context.save()
-//                            print(" 삭제 성공: \(word.wordName)")
-//                        } catch {
-//                            print("삭제 실패: \(error)")
-//                        }
-//                        dismiss()
-                    
-                    
                 }
+
                 Spacer()
-                Button("수정") {}
+
+                Button("수정") {
+                    isShowingEdit = true  // 수정 버튼 누르면 상태 변경
+                }
             }
             .padding(.horizontal)
             .padding(.top)
@@ -85,6 +81,12 @@ struct WordFormView2: View {
             .padding(.horizontal)
 
             Spacer()
+
+            // 수정 화면으로 이동하는 NavigationLink
+            NavigationLink(destination: WordFormView(existingWord: word), isActive: $isShowingEdit) {
+                EmptyView()
+            }
+            .hidden()
         }
     }
 
@@ -95,6 +97,14 @@ struct WordFormView2: View {
     }
 }
 
+
+
 #Preview {
-    WordFormView2(word: Word(wordName: "예시 단어", wordDefinition: "예시 뜻", tag: "예시 태그"))
+    let previewWord = Word(
+        wordName: "단어 제목",
+        wordDefinition: "뜻",
+        tag: "태그",
+        createdAt: .now
+    )
+    return WordFormView2(word: previewWord)
 }

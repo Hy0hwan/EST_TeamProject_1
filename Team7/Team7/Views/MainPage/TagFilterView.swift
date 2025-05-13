@@ -32,6 +32,9 @@ struct TagFilterView: View {
                         .padding(.vertical, 6)
                         .background(Color.gray.opacity(0.2))
                         .clipShape(Capsule())
+                 //   TagContainerView(tag: tag, isButtonType: false)
+                
+                    
                 }
             }
             .padding(.horizontal)
