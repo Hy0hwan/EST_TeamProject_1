@@ -33,9 +33,11 @@ struct MainListView: View {
                         .frame(maxWidth: .infinity, alignment: .center)
                         .padding(.top)
 
+                    Spacer()
+
                     // 검색창
                     HStack {
-                        TextField("검색하실 단어를 입력하세요", text: $searchText)
+                        TextField("검색할 단어를 입력하세요", text: $searchText)
                             .textFieldStyle(PlainTextFieldStyle())
                             .padding(.vertical, 8)
                         Image(systemName: "magnifyingglass")
@@ -45,13 +47,12 @@ struct MainListView: View {
                     .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray.opacity(0.4)))
                     .padding(.horizontal)
 
-                    Spacer()
 
                     Text("태그")
                         .font(.subheadline)
+                        .fontWeight(.bold)
                         .padding(.leading)
 
-                    Spacer()
                     // 태그 필터 바 (선택)
                     TagFilterView(words: words)
 
