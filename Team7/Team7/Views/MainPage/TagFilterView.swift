@@ -20,6 +20,14 @@ struct TagFilterView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
                 ForEach(tags, id: \.self) { tag in
+                    Text(tag)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(Color.gray.opacity(0.2))
+                        .clipShape(Capsule())
+                 //   TagContainerView(tag: tag, isButtonType: false)
+                
+                    
                     Button(action: {
                         selectedTag = (selectedTag == tag) ? nil : tag
                     }) {
@@ -29,6 +37,7 @@ struct TagFilterView: View {
                         Capsule()
                             .fill(selectedTag == tag ? Color.blue.opacity(0.6) : Color.clear)
                     )
+
                 }
                 .buttonStyle(PlainButtonStyle())
             }
