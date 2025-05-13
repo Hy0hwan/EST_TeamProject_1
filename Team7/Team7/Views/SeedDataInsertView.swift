@@ -8,12 +8,14 @@
 import SwiftUI
 import SwiftData
 
+// 50건의 시드 데이터를 주입하기 위해 임시로 사용하는 뷰
 struct SeedDataInsertView: View {
     @Environment(\.modelContext) var context
     @State private var words: [Word] = []
     
     var body: some View {
         VStack {
+            // 시드 데이터 주입
             Button {
                 insertSeedWords(context: context)
             } label: {
@@ -21,6 +23,7 @@ struct SeedDataInsertView: View {
             }
             .buttonStyle(.borderedProminent)
             
+            // 시드 데이터 삭제
             Button(role: .destructive) {
                 eraseAllSeedWords(context: context)
             } label: {
@@ -28,6 +31,7 @@ struct SeedDataInsertView: View {
             }
             .buttonStyle(.borderedProminent)
             
+            // 등록된 데이터를 표기
             List {
                 Section("시드 데이터 리스트") {
                     ForEach(words, id: \.self) { word in
@@ -37,7 +41,7 @@ struct SeedDataInsertView: View {
             }
             .listStyle(.plain)
             .onAppear {
-                loadWords()
+                loadWords() // 뷰 초기화 시 등록된 데이터 불러오기
             }
         }
         .padding()
@@ -45,14 +49,15 @@ struct SeedDataInsertView: View {
 }
 
 extension SeedDataInsertView {
+    // 데이터 불러오기
     func loadWords() {
-        // 데이터 불러오기
         let fetchDescriptor = FetchDescriptor<Word>()
         if let fetchedWords = try? context.fetch(fetchDescriptor) {
             self.words = fetchedWords
         }
     }
     
+    // 데이터 주입하기
     func insertSeedWords(context: ModelContext) {
         // 이미 데이터가 있다면 종료 (예: Word가 1개 이상 있을 경우)
         let existingWords = try? context.fetch(FetchDescriptor<Word>())
@@ -61,7 +66,7 @@ extension SeedDataInsertView {
             return
         }
         
-        // 재사용할 태그 생성
+        // 더미 데이터 - 태그
         let dummyTags = [
             Tag(name: "문법"),
             Tag(name: "UI"),
@@ -72,7 +77,7 @@ extension SeedDataInsertView {
             context.insert(tag)
         }
         
-        // 더미 데이터 등록하기
+        // 더미 데이터 - 단어
         let dummyWords = [
             Word(wordName: "옵셔널", wordDefinition: "값이 있을 수도, 없을 수도 있는 타입.", tag: "문법"),
             Word(wordName: "뷰", wordDefinition: "사용자 인터페이스를 구성하는 요소.", tag: "비동기"),
@@ -132,10 +137,11 @@ extension SeedDataInsertView {
         
         try? context.save()
         
-        loadWords()
+        loadWords() // 데이터 등록 후 한 번 더 불러와 뷰에 반영하기
         print("더미 데이터 주입 성공")
     }
     
+    // 데이터 삭제하기
     func eraseAllSeedWords(context: ModelContext) {
         let descriptor = FetchDescriptor<Word>()
         
