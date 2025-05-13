@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct MainListView: View {
+    @Environment(\.modelContext) private var context
     @Query var words: [Word]
     @State private var searchText: String = ""
     @State private var isShowingCreateView = false
@@ -44,7 +45,7 @@ struct MainListView: View {
                     .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray.opacity(0.4)))
                     .padding(.horizontal)
 
-//                    Spacer()
+                    Spacer()
 
                     Text("태그")
                         .font(.subheadline)
@@ -63,6 +64,13 @@ struct MainListView: View {
                                     selectedWord = word
                                 } label: {
                                     WordRowView(word: word)
+                                }
+                                .swipeActions(edge: .trailing) {
+                                    Button(role: .destructive) {
+                                        deleteWord(word)
+                                    } label: {
+                                        Label("삭제", systemImage: "trash")
+                                    }
                                 }
                             }
                         }
@@ -109,6 +117,11 @@ struct MainListView: View {
             }
             .navigationBarHidden(true)
         }
+    }
+
+    func deleteWord(_ word: Word) {
+        context.delete(word)
+        try? context.save()
     }
 }
 
