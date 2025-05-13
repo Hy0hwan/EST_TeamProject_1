@@ -8,8 +8,6 @@
 import SwiftUI
 import SwiftData
 
-var dummyWord = Word(wordName: "옵셔널", wordDefinition: "값이 있을 수도, 없을 수도 있는 타입.", tag: "test")
-
 struct TagListSheetView: View {
     @Environment(\.modelContext) var context
     
@@ -25,22 +23,6 @@ struct TagListSheetView: View {
         NavigationStack {
             VStack(spacing: 20) {
                 VStack(alignment: .leading) {
-                    SectionTitle(title: "태그 목록")
-                    
-                    List {
-                        ForEach($tags) { tag in
-                            Button {
-                                print(tag.name.wrappedValue)
-                            } label: {
-                                TagView(tag: tag.wrappedValue)
-                            }
-                        }
-                        .onDelete(perform: delete)
-                    }
-                    .listStyle(.plain)
-                }
-                
-                VStack(alignment: .leading) {
                     SectionTitle(title: "새로운 태그 생성")
                     
                     HStack(spacing: 20) {
@@ -54,10 +36,25 @@ struct TagListSheetView: View {
                             tagName = ""
                         } label: {
                             Text("저장하기")
-                                .foregroundStyle(.customPrimary)
                         }
                         .disabled(tagName.isEmpty)
                     }
+                }
+//                
+                VStack(alignment: .leading) {
+                    SectionTitle(title: "기존 태그 목록")
+                    
+                    List {
+                        ForEach($tags) { tag in
+                            Button {
+                                print(tag)
+                            } label: {
+                                TagDisplayView(tag: tag, isEditable: false)
+                            }
+                        }
+                        .onDelete(perform: delete)
+                    }
+                    .listStyle(.plain)
                 }
             }
             .padding()
@@ -67,7 +64,6 @@ struct TagListSheetView: View {
                         isTagSheetOpen = false
                     } label: {
                         Text("닫기")
-                            .foregroundStyle(.customPrimary)
                     }
                 }
             }
@@ -113,10 +109,6 @@ extension TagListSheetView {
         for index in indexSet {
             context.delete(tags[index])
         }
-    }
-    
-    func search() {
-        
     }
 }
 

@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct MainListView: View {
+    @Environment(\.modelContext) private var context
     @Query var words: [Word]
     @State private var searchText: String = ""
     @State private var isShowingCreateView = false
@@ -32,9 +33,11 @@ struct MainListView: View {
                         .frame(maxWidth: .infinity, alignment: .center)
                         .padding(.top)
 
+                    Spacer()
+
                     // 검색창
                     HStack {
-                        TextField("검색하실 단어를 입력하세요", text: $searchText)
+                        TextField("검색할 단어를 입력하세요", text: $searchText)
                             .textFieldStyle(PlainTextFieldStyle())
                             .padding(.vertical, 8)
                         Image(systemName: "magnifyingglass")
@@ -44,19 +47,17 @@ struct MainListView: View {
                     .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray.opacity(0.4)))
                     .padding(.horizontal)
 
-//                    Spacer()
 
                     Text("태그")
                         .font(.subheadline)
+                        .fontWeight(.bold)
                         .padding(.leading)
 
-                    Spacer()
                     // 태그 필터 바 (선택)
                     TagFilterView(words: words)
 
                     // 단어 리스트
-                    ScrollView {
-                        VStack(spacing: 12) {
+                    List {
                             ForEach(filteredWords) { word in
                                 // 단어 카드를 누르면 상세화면으로 이동 (임시 Text)
                                 Button {
@@ -64,13 +65,20 @@ struct MainListView: View {
                                 } label: {
                                     WordRowView(word: word)
                                 }
+                                .swipeActions(edge: .trailing) {
+                                    Button(role: .destructive) {
+                                        deleteWord(word)
+                                    } label: {
+                                        Label("삭제", systemImage: "trash")
+                                    }
+                                }
                             }
                         }
-                        .padding(.horizontal)
+                    .listStyle(.plain)
                     }
 
                     Spacer()
-                }
+                
 
                 // 오른쪽 아래 +버튼
                 VStack {
@@ -109,6 +117,11 @@ struct MainListView: View {
             }
             .navigationBarHidden(true)
         }
+    }
+
+    func deleteWord(_ word: Word) {
+        context.delete(word)
+        try? context.save()
     }
 }
 
