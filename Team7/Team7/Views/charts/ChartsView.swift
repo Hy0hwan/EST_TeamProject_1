@@ -49,47 +49,31 @@ extension TagData {
 
 struct ChartsView: View {
     @State private var selectedChart: ChartType = .month
-
+    
     var body: some View {
         VStack {
-            HStack() {
-                Button {
-                    selectedChart = .month
-                } label: {
-                    Text("월별")
-                        .padding()
-                        .background(selectedChart == .month ? Color.black : Color.gray.opacity(0.3))
-                        .foregroundColor(selectedChart == .month ? .white : .black)
-                        .clipShape(Capsule())
-                }
-
-                Button {
-                    selectedChart = .tag
-                } label: {
-                    Text("태그별")
-                        .padding()
-                        .background(selectedChart == .tag ? Color.black : Color.gray.opacity(0.3))
-                        .foregroundColor(selectedChart == .tag ? .white : .black)
-                        .clipShape(Capsule())
-                }
+            Picker("차트 타입", selection: $selectedChart) {
+                Text("월별").tag(ChartType.month)
+                Text("태그별").tag(ChartType.tag)
             }
+            .pickerStyle(.segmented)
             .padding()
-            .background(Color.gray.opacity(0.2))
-            .clipShape(Capsule())
-
+            
+            
             // 조건부 랜더링
             if selectedChart == .month {
                 MonthChartView(data: TagData.monthData())
             } else {
                 TagChartView(data: TagData.tagData())
             }
-
+            
+            
             Spacer()
         }
         .padding()
-
+        
     }
-       
+    
 }
 
 #Preview {
