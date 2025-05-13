@@ -56,8 +56,7 @@ struct MainListView: View {
                     TagFilterView(words: words)
 
                     // 단어 리스트
-                    ScrollView {
-                        VStack(spacing: 12) {
+                    List {
                             ForEach(filteredWords) { word in
                                 // 단어 카드를 누르면 상세화면으로 이동 (임시 Text)
                                 Button {
@@ -74,11 +73,11 @@ struct MainListView: View {
                                 }
                             }
                         }
-                        .padding(.horizontal)
+                    .listStyle(.plain)
                     }
 
                     Spacer()
-                }
+                
 
                 // 오른쪽 아래 +버튼
                 VStack {
