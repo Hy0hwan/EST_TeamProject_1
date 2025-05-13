@@ -43,5 +43,5 @@ struct TagChartView: View {
 }
 
 #Preview {
-    TagChartView(data: TagData.data())
+    TagChartView(data: TagData.tagData())
 }
