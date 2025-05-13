@@ -16,7 +16,7 @@ struct MonthData {
 
 struct MonthChartView: View {
     var data: [MonthData]
-
+    
     var body: some View {
         List {
             ForEach(data.reversed(), id: \.monthName) { item in
@@ -24,16 +24,25 @@ struct MonthChartView: View {
                     Text("2025년 \(item.monthName)")
                         .foregroundColor(.primary)
                     Spacer()
-                    Text("\(item.count)개")
-                        .foregroundColor(.blue)
+
+                    Button {
+                        print("\(item.monthName) 월 클릭")
+                    } label: {
+                        HStack {
+                            Text("\(item.count)개")
+                                .foregroundColor(.blue)
+                        }
+                    }
+                    
+                    
                 }
                 .padding(.vertical, 6)
             }
             .padding(.top, 8)
-
+            
         }
         .listStyle(.plain)
-
+        
     }
 }
 
