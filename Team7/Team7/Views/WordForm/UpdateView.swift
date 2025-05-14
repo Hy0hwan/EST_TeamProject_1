@@ -11,7 +11,9 @@ import SwiftData
 
 struct UpdateView: View {
     @Environment(\.modelContext) private var context
+    @Environment(\.dismiss) var dismiss
 
+    
     @State private var protocolword: String = ""
     @State private var tag: String = ""
     @State private var meaning: String = ""
@@ -33,13 +35,14 @@ struct UpdateView: View {
             VStack(spacing: 40) {
                 HStack {
                     Button {
-                        
+                        dismiss()
                     } label: {
                         Text("취소")
-
-                            .foregroundColor(.blue)
+                        
                     }
-
+                    
+                    .navigationBarBackButtonHidden(true)
+                    
                     Spacer()
 
                     Button("저장") {

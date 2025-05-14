@@ -62,7 +62,6 @@ struct MainListView: View {
                     // 단어 리스트
                     List {
                             ForEach(filteredWords) { word in
-                                // 단어 카드를 누르면 상세화면으로 이동 (임시 Text)
                                 Button {
                                     selectedWord = word
                                 } label: {
@@ -75,6 +74,7 @@ struct MainListView: View {
                                         Label("삭제", systemImage: "trash")
                                     }
                                 }
+                                .listRowSeparator(.hidden)
                             }
                         }
                     .listStyle(.plain)
@@ -107,6 +107,7 @@ struct MainListView: View {
             // 단어 상세화면으로 이동
             .navigationDestination(item: $selectedWord) { word in
                 DetailView(word: word)
+
             }
             // 단어 추가화면으로 이동
             .navigationDestination(isPresented: $isShowingCreateView) {
