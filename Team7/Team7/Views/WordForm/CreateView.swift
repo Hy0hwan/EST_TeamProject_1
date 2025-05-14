@@ -8,8 +8,12 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct CreateView: View {
+    @Environment(\.modelContext) private var context
+    @Environment(\.dismiss) private var dismiss
+    
     @State private var wordName: String = ""
     @State private var wordDefinition: String = ""
     @State private var tag: String = ""
@@ -19,7 +23,7 @@ struct CreateView: View {
             VStack(spacing: 40) {
                 HStack {
                     Button {
-                        
+                        dismiss()
                     } label: {
                         Text("취소")
                             .foregroundColor(.blue)
@@ -28,7 +32,10 @@ struct CreateView: View {
                     Spacer()
 
                     Button {
-                        
+                        let newWord = Word(wordName: wordName, wordDefinition: wordDefinition, tag: tag)
+                        context.insert(newWord)
+                        try? context.save()
+                        dismiss()
                     } label: {
                         Text("저장")
                             .foregroundColor(.blue)
