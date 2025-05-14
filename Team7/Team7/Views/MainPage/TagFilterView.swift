@@ -10,16 +10,19 @@ import SwiftUI
 struct TagFilterView: View {
     let words: [Word]
     @Binding var selectedTag: String?
-    
+
     var tags: [String] {
-        Array(Set(words.compactMap { $0.tag }))
+        if let selectedTag = selectedTag {
+            return [selectedTag]
+        } else {
+            return Array(Set(words.compactMap { $0.tag })).sorted()
+        }
     }
-    
+
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
                 ForEach(tags, id: \.self) { tag in
-                    
                     Button(
                         action: {
                             selectedTag = (selectedTag == tag) ? nil : tag
@@ -31,7 +34,7 @@ struct TagFilterView: View {
                                 Capsule()
                                     .fill(selectedTag == tag ? Color.blue.opacity(0.6) : Color.clear)
                             )
-                            
+
                         }
                     )
                     .buttonStyle(PlainButtonStyle())
