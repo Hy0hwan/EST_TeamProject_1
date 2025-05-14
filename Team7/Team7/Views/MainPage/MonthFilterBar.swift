@@ -23,7 +23,7 @@ struct MonthFilterBar: View {
                 }
 
                 Text("\(String(selectedYear))년 \(selectedMonth)월")
-                    .font(.title3)
+                    .font(.subheadline)
                     .padding(.vertical, 6)
                     .padding(.horizontal, 18)
                     .background(
