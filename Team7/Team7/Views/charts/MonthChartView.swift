@@ -8,35 +8,28 @@
 import SwiftUI
 import Charts
 
+
+
 struct MonthChartView: View {
     var data: [MonthsData]
-    
+    var selectMonth: (String) -> Void
     var body: some View {
         List {
             ForEach(data.reversed(), id: \.monthName) { item in
                 HStack {
                     Text("2025년 \(item.monthName)")
-                        .foregroundColor(.primary)
                     Spacer()
-
                     Button {
-                        print("\(item.monthName) 월 클릭")
+                        selectMonth(item.monthName)
                     } label: {
-                        HStack {
-                            Text("\(item.count)개")
-                                .foregroundColor(.blue)
-                        }
+                        Text("\(item.count)개")
+                            .foregroundColor(.blue)
                     }
-                    
-                    
                 }
                 .padding(.vertical, 6)
             }
-            .padding(.top, 8)
-            
         }
         .listStyle(.plain)
-        
     }
 }
 

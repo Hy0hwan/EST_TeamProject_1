@@ -26,13 +26,13 @@ struct MonthsData {
 
 struct ChartsView: View {
     @State private var selectedChart: ChartType = .month
+    @EnvironmentObject var appState: AppState  
     @Query var tags: [Tag]
     
     var monthData: [MonthsData] {
         let calendar = Calendar.current
         let grouped = Dictionary(grouping: tags) { a in
-            calendar.component(.month, from: a.createdAt) // 1~12월 숫자
-            
+            calendar.component(.month, from: a.createdAt)
         }
         
         return (1...12).map { monthNumber in
@@ -41,14 +41,10 @@ struct ChartsView: View {
         }
     }
 
-    
     var tagData: [TagData] {
-        Dictionary(grouping: tags, by: { a in a.name })
-            .map { (key, value) in
-                TagData(tagName: key, count: value.count)
-            }
+        Dictionary(grouping: tags, by: { $0.name })
+            .map { TagData(tagName: $0.key, count: $0.value.count) }
     }
-
 
     var body: some View {
         VStack {
@@ -59,27 +55,22 @@ struct ChartsView: View {
             .pickerStyle(.segmented)
             .padding()
             
-            
             if selectedChart == .month {
-                MonthChartView(data: monthData)
-//                    .onAppear {
-//                        print("월별 데이터 : \(monthData)")
-//                    }
+                MonthChartView(data: monthData) { selectedMonth in
+                    appState.selectedMonthName = selectedMonth
+                    appState.selectedTab = 0 // MainListView로 이동
+                }
             } else {
                 TagChartView(data: tagData)
-                    .onAppear{
+                    .onAppear {
                         print("tagData 확인 : \(tagData)")
-                    } // console.log 같이 확인방법 .onAppear는 뷰가 랜더링될때 실행가능하다.
+                    }
             }
-        
-            
-            
+
             Spacer()
         }
         .padding()
-        
     }
-    
 }
 
 #Preview {
