@@ -78,7 +78,6 @@ struct MainListView: View {
                             }
                         }
                     .listStyle(.plain)
-//                    .listRowSeparator(.hidden)
                     }
 
                     Spacer()
@@ -107,9 +106,6 @@ struct MainListView: View {
             }
             // 단어 상세화면으로 이동
             .navigationDestination(item: $selectedWord) { word in
- feature/add-detail-update-view
-                UpdateView(existingWord: word)
-
                 DetailView(word: word)
 
             }
