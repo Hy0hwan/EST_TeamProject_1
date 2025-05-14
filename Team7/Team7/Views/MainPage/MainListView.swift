@@ -13,6 +13,7 @@ struct MainListView: View {
     @Query var words: [Word]
     @State private var searchText: String = ""
     @State private var isShowingCreateView = false
+    @State private var isShowingWordFormView = false
     @State private var selectedWord: Word? = nil
     @State private var selectedTag: String? = nil
 
@@ -59,8 +60,9 @@ struct MainListView: View {
                     // 단어 리스트
                     List {
                             ForEach(filteredWords) { word in
-                                // 단어 카드를 누르면 상세화면으로 이동 (임시 Text)
+                                // 상세화면으로 이동
                                 Button {
+                                    print("String")
                                     selectedWord = word
                                 } label: {
                                     WordRowView(word: word)
@@ -101,12 +103,9 @@ struct MainListView: View {
                     }
                 }
             }
-            // 단어 상세화면으로 이동 (임시 화면)
-            .navigationDestination(item: $selectedWord) { word in
-                // 실제 상세화면 구현은 X, 임시로 텍스트만
-                Text("단어 상세화면 (임시)\n\(word.wordName)")
-                    .font(.title)
-                    .padding()
+            // 단어 상세화면으로 이동
+            .navigationDestination(isPresented: $isShowingWordFormView) {
+                WordFormView()
             }
             // 단어 추가화면으로 이동
             .navigationDestination(isPresented: $isShowingCreateView) {
