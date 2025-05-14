@@ -16,6 +16,8 @@ struct MainListView: View {
     @State private var isShowingDetailView = false
     @State private var selectedWord: Word? = nil
     @State private var selectedTag: String? = nil
+    @State private var selectedYear: Int = Calendar.current.component(.year, from: Date())
+    @State private var selectedMonth: Int = Calendar.current.component(.month, from: Date())
 
     var filteredWords: [Word] {
         words.filter { word in
@@ -49,7 +51,7 @@ struct MainListView: View {
                     .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray.opacity(0.4)))
                     .padding(.horizontal)
 
-                    MonthFilterBar()
+                    MonthFilterBar(selectedYear: $selectedYear, selectedMonth: $selectedMonth)
 
                     Text("태그")
                         .font(.subheadline)
