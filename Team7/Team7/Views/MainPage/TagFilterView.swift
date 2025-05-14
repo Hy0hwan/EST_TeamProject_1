@@ -20,30 +20,12 @@ struct TagFilterView: View {
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
-                Button(
-                    action: { selectedTag = nil },
-                    label: {
-                        Text("전체")
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 6)
-                            .background(
-                                Capsule()
-                                    .fill(selectedTag == nil ? Color.blue.opacity(0.6) : Color.clear)
-                            )
-                            .foregroundStyle(.primary)
-                    }
-                )
-                .buttonStyle(PlainButtonStyle())
-
-
                 ForEach(tags, id: \.self) { tag in
-                    Button(
-                        action: {
-                            selectedTag = (selectedTag == tag) ? nil : tag
-                        }, label: {
-                            TagContainerView(tag: tag, isButtonType: false
-                            )
-                            .background(
+                Button(
+                    action: { selectedTag = (selectedTag == tag) ?  nil : tag },
+                    label: {
+                        TagContainerView(tag: tag, isButtonType: false)
+                            .overlay(
                                 Capsule()
                                     .fill(selectedTag == tag ? Color.blue.opacity(0.6) : Color.clear)
                             )

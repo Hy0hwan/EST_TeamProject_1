@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 enum ChartType {
     case month
@@ -17,39 +18,34 @@ struct TagData {
     var count: Int
 }
 
-extension TagData {
-    
-    static func monthData() -> [MonthData] {
-        [
-            MonthData(monthName: "1월", count: 4),
-            MonthData(monthName: "2월", count: 6),
-            MonthData(monthName: "3월", count: 9),
-            MonthData(monthName: "4월", count: 3),
-            MonthData(monthName: "5월", count: 4),
-            MonthData(monthName: "6월", count: 6),
-            MonthData(monthName: "7월", count: 9),
-            MonthData(monthName: "8월", count: 3),
-            MonthData(monthName: "9월", count: 4),
-            MonthData(monthName: "10월", count: 6),
-            MonthData(monthName: "11월", count: 9),
-            MonthData(monthName: "12월", count: 3),
-        ]
-    }
-    
-    
-    static func tagData() -> [TagData] {
-        [
-            TagData(tagName: "CS", count: 10),
-            TagData(tagName: "Swift", count: 10),
-            TagData(tagName: "Java", count: 10),
-            TagData(tagName: "기타", count: 20)
-        ]
-    }
+struct MonthsData {
+    var monthName: String
+    var count: Int
 }
+
 
 struct ChartsView: View {
     @State private var selectedChart: ChartType = .month
+    @EnvironmentObject var appState: AppState  
+    @Query var tags: [Tag]
     
+    var monthData: [MonthsData] {
+        let calendar = Calendar.current
+        let grouped = Dictionary(grouping: tags) { a in
+            calendar.component(.month, from: a.createdAt)
+        }
+        
+        return (1...12).map { monthNumber in
+            let count = grouped[monthNumber]?.count ?? 0
+            return MonthsData(monthName: "\(monthNumber)월", count: count)
+        }
+    }
+
+    var tagData: [TagData] {
+        Dictionary(grouping: tags, by: { $0.name })
+            .map { TagData(tagName: $0.key, count: $0.value.count) }
+    }
+
     var body: some View {
         VStack {
             Picker("차트 타입", selection: $selectedChart) {
@@ -59,21 +55,22 @@ struct ChartsView: View {
             .pickerStyle(.segmented)
             .padding()
             
-            
-            // 조건부 랜더링
             if selectedChart == .month {
-                MonthChartView(data: TagData.monthData())
+                MonthChartView(data: monthData) { selectedMonth in
+                    appState.selectedMonthName = selectedMonth
+                    appState.selectedTab = 0 // MainListView로 이동
+                }
             } else {
-                TagChartView(data: TagData.tagData())
+                TagChartView(data: tagData)
+                    .onAppear {
+                        print("tagData 확인 : \(tagData)")
+                    }
             }
-            
-            
+
             Spacer()
         }
         .padding()
-        
     }
-    
 }
 
 #Preview {

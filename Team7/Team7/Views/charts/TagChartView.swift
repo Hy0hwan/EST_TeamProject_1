@@ -43,6 +43,6 @@ struct TagChartView: View {
     }
 }
 
-#Preview {
-    TagChartView(data: TagData.tagData())
-}
+//#Preview {
+//    TagChartView(data: TagData.tagData())
+//}

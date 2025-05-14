@@ -9,6 +9,8 @@ import SwiftUI
 import SwiftData
 
 struct MainListView: View {
+    var monthName: String?
+    
     @Environment(\.modelContext) private var context
     @Query var words: [Word]
     @State private var searchText: String = ""
@@ -18,6 +20,8 @@ struct MainListView: View {
     @State private var selectedTag: String? = nil
     @State private var selectedYear: Int = Calendar.current.component(.year, from: Date())
     @State private var selectedMonth: Int = Calendar.current.component(.month, from: Date())
+
+    
 
     var filteredWords: [Word] {
         words.filter { word in
@@ -50,6 +54,10 @@ struct MainListView: View {
                     .padding(.horizontal)
                     .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray.opacity(0.4)))
                     .padding(.horizontal)
+                    .onAppear {
+                        print("11 : \(monthName)")
+                        // 데이터확인
+                    }
 
                     MonthFilterBar(selectedYear: $selectedYear, selectedMonth: $selectedMonth)
 
@@ -90,17 +98,18 @@ struct MainListView: View {
                     Spacer()
                     HStack {
                         Spacer()
-                        Button(action: {
-                            isShowingCreateView = true
-                        }) {
-                            Image(systemName: "plus")
-                                .foregroundColor(.white)
-                                .font(.system(size: 24))
-                                .padding()
-                                .background(Color.black)
-                                .clipShape(Circle())
-                                .shadow(radius: 4)
-                        }
+                        Button(
+                            action: { isShowingCreateView = true },
+                            label: {
+                                Image(systemName: "plus")
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 24))
+                                    .padding()
+                                    .background(Color("PlusButtonColor"))
+                                    .clipShape(Circle())
+                                    .shadow(radius: 4)
+                            }
+                        )
                         .padding(.trailing, 24)
                         .padding(.bottom, 24)
                     }
