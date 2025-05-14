@@ -60,9 +60,8 @@ struct MainListView: View {
                     // 단어 리스트
                     List {
                             ForEach(filteredWords) { word in
-                                // 상세화면으로 이동
+                                // 단어 카드를 누르면 상세화면으로 이동 (임시 Text)
                                 Button {
-                                    print("String")
                                     selectedWord = word
                                 } label: {
                                     WordRowView(word: word)
@@ -104,8 +103,8 @@ struct MainListView: View {
                 }
             }
             // 단어 상세화면으로 이동
-            .navigationDestination(isPresented: $isShowingWordFormView) {
-                WordFormView()
+            .navigationDestination(item: $selectedWord) { word in
+                WordFormView(existingWord: word)
             }
             // 단어 추가화면으로 이동
             .navigationDestination(isPresented: $isShowingCreateView) {
