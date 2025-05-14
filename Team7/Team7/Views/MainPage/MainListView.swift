@@ -62,7 +62,6 @@ struct MainListView: View {
                     // 단어 리스트
                     List {
                             ForEach(filteredWords) { word in
-                                // 단어 카드를 누르면 상세화면으로 이동 (임시 Text)
                                 Button {
                                     selectedWord = word
                                 } label: {
