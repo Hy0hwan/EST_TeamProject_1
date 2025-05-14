@@ -10,7 +10,6 @@ import SwiftData
 import SwiftUI
 
 @Model
-
 final class Tag {
     var name: String // 태그 이름
     var createdAt: Date // 생성일
