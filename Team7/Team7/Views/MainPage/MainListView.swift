@@ -74,9 +74,11 @@ struct MainListView: View {
                                         Label("삭제", systemImage: "trash")
                                     }
                                 }
+                                .listRowSeparator(.hidden)
                             }
                         }
                     .listStyle(.plain)
+//                    .listRowSeparator(.hidden)
                     }
 
                     Spacer()
