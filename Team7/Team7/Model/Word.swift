@@ -9,7 +9,6 @@ import Foundation
 import SwiftData
 
 @Model
-
 final class Word {
     var wordName: String // 단어 이름
     var wordDefinition: String // 단어 뜻

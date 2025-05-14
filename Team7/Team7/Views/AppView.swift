@@ -48,9 +48,6 @@ struct AppView: View {
 //        TagContainerView(isButtonType: true)
 //        ContentView()
 
-        TagContainerView(tag: "문법", isButtonType: true)
-
-
     }
 }
 
