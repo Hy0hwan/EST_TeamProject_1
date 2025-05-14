@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 enum ChartType {
     case month
@@ -35,21 +36,19 @@ extension TagData {
             MonthData(monthName: "12월", count: 3),
         ]
     }
-    
-    
-    static func tagData() -> [TagData] {
-        [
-            TagData(tagName: "CS", count: 10),
-            TagData(tagName: "Swift", count: 10),
-            TagData(tagName: "Java", count: 10),
-            TagData(tagName: "기타", count: 20)
-        ]
-    }
 }
 
 struct ChartsView: View {
     @State private var selectedChart: ChartType = .month
+    @Query var tags: [Tag]
     
+    var tagData: [TagData] {
+        Dictionary(grouping: tags, by: { a in a.name })
+            .map { (key, value) in
+                TagData(tagName: key, count: value.count)
+            }
+    }
+
     var body: some View {
         VStack {
             Picker("차트 타입", selection: $selectedChart) {
@@ -60,12 +59,15 @@ struct ChartsView: View {
             .padding()
             
             
-            // 조건부 랜더링
             if selectedChart == .month {
                 MonthChartView(data: TagData.monthData())
             } else {
-                TagChartView(data: TagData.tagData())
+                TagChartView(data: tagData)
+                    .onAppear{
+                        print("tagData 확인 : \(tagData)")
+                    } // console.log 같이 확인방법 .onAppear는 뷰가 랜더링될때 실행가능하다.
             }
+        
             
             
             Spacer()
