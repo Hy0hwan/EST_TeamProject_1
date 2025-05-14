@@ -17,7 +17,6 @@ struct Team7App: App {
             container = try ModelContainer(for: Tag.self, Word.self)
             print("성공 :  \(container)")
         } catch {
-//            print("실패 :  \(ModelContainer(for: Tag.self, Word.self))")
             fatalError("실패 : \(error)")
 
         }
