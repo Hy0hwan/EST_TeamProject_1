@@ -108,16 +108,9 @@ struct MainListView: View {
                     .font(.title)
                     .padding()
             }
-            // 단어 추가화면으로 이동 (임시 화면)
-            .sheet(isPresented: $isShowingCreateView) {
-                // 실제 추가화면 구현은 X, 임시로 텍스트만
-                Text("단어 추가화면 (임시)")
-                    .font(.title)
-                    .padding()
-                
-                //여기에다가
-                
-                
+            // 단어 추가화면으로 이동
+            .navigationDestination(isPresented: $isShowingCreateView) {
+                CreateView()
             }
             .navigationBarHidden(true)
         }
