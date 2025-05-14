@@ -5,6 +5,8 @@
 //  Created by 이유정 on 5/13/25.
 //
 
+
+
 import SwiftUI
 
 struct TagFilterView: View {
@@ -12,22 +14,33 @@ struct TagFilterView: View {
     @Binding var selectedTag: String?
 
     var tags: [String] {
-        if let selectedTag = selectedTag {
-            return [selectedTag]
-        } else {
-            return Array(Set(words.compactMap { $0.tag })).sorted()
-        }
+        Array(Set(words.compactMap { $0.tag })).sorted()
     }
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
+                Button(
+                    action: { selectedTag = nil },
+                    label: {
+                        Text("전체")
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 6)
+                            .background(
+                                Capsule()
+                                    .fill(selectedTag == nil ? Color.blue.opacity(0.6) : Color.clear)
+                            )
+                            .foregroundStyle(.primary)
+                    }
+                )
+                .buttonStyle(PlainButtonStyle())
+
+
                 ForEach(tags, id: \.self) { tag in
                     Button(
                         action: {
                             selectedTag = (selectedTag == tag) ? nil : tag
-                        },
-                        label: {
+                        }, label: {
                             TagContainerView(tag: tag, isButtonType: false
                             )
                             .background(
