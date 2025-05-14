@@ -22,16 +22,17 @@ struct MonthFilterBar: View {
                         .padding(.horizontal)
                 }
 
-                Text("\(selectedYear)년 \(selectedMonth)월")
+                Text("\(String(selectedYear))년 \(selectedMonth)월")
                     .font(.title3)
                     .padding(.vertical, 6)
-                    .padding(.vertical, 18)
+                    .padding(.horizontal, 18)
                     .background(
                         RoundedRectangle(cornerRadius: 18)
                             .fill(Color.gray.opacity(0.15))
                     )
 
                 Button(action: {
+                    moveMonth(by: 1)
                 }) {
                     Image(systemName: "chevron.right")
                         .font(.title2)
@@ -42,7 +43,7 @@ struct MonthFilterBar: View {
         }
     }
     private func moveMonth(by value: Int) {
-        let dateComponents = DateComponents(year: selectedYear, month: selectedMonth)
+        var dateComponents = DateComponents(year: selectedYear, month: selectedMonth)
         let calendar = Calendar.current
         if let currentDate = calendar.date(from: dateComponents),
            let newDate = calendar.date(byAdding: .month, value: value, to: currentDate) {
