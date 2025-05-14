@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct MonthFilterBar: View {
-    @State private var selectedYear: Int = Calendar.current.component(.year, from: Date())
-    @State private var selectedMonth: Int = Calendar.current.component(.month, from: Date())
-    
+    @Binding var selectedYear: Int
+    @Binding var selectedMonth: Int
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
@@ -57,5 +57,7 @@ struct MonthFilterBar: View {
 }
 
 #Preview {
-    MonthFilterBar()
+    MonthFilterBar(
+        selectedYear: .constant(2025), selectedMonth: .constant(5)
+    )
 }

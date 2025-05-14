@@ -18,6 +18,9 @@ struct MainListView: View {
     @State private var isShowingDetailView = false
     @State private var selectedWord: Word? = nil
     @State private var selectedTag: String? = nil
+    @State private var selectedYear: Int = Calendar.current.component(.year, from: Date())
+    @State private var selectedMonth: Int = Calendar.current.component(.month, from: Date())
+
     
 
     var filteredWords: [Word] {
@@ -53,9 +56,10 @@ struct MainListView: View {
                     .padding(.horizontal)
                     .onAppear {
                         print("11 : \(monthName)")
+                        // 데이터확인
                     }
 
-                    MonthFilterBar()
+                    MonthFilterBar(selectedYear: $selectedYear, selectedMonth: $selectedMonth)
 
                     Text("태그")
                         .font(.subheadline)
@@ -94,17 +98,18 @@ struct MainListView: View {
                     Spacer()
                     HStack {
                         Spacer()
-                        Button(action: {
-                            isShowingCreateView = true
-                        }) {
-                            Image(systemName: "plus")
-                                .foregroundColor(.white)
-                                .font(.system(size: 24))
-                                .padding()
-                                .background(Color.black)
-                                .clipShape(Circle())
-                                .shadow(radius: 4)
-                        }
+                        Button(
+                            action: { isShowingCreateView = true },
+                            label: {
+                                Image(systemName: "plus")
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 24))
+                                    .padding()
+                                    .background(Color("PlusButtonColor"))
+                                    .clipShape(Circle())
+                                    .shadow(radius: 4)
+                            }
+                        )
                         .padding(.trailing, 24)
                         .padding(.bottom, 24)
                     }
@@ -129,6 +134,6 @@ struct MainListView: View {
     }
 }
 
-//#Preview {
-//    MainListView()
-//}
+#Preview {
+    MainListView()
+}
