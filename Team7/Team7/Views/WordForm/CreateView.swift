@@ -28,7 +28,7 @@ struct CreateView: View {
                         Text("취소")
                             
                     }
-
+                    .navigationBarBackButtonHidden(true)
                     Spacer()
 
                     Button {

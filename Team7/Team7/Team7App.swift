@@ -10,7 +10,8 @@ import SwiftData
 
 @main
 struct Team7App: App {
-    let container: ModelContainer
+   let container: ModelContainer
+
 
     init() {
         do {
@@ -21,12 +22,12 @@ struct Team7App: App {
         }
     }
 
-    var body: some Scene {
-        WindowGroup {
-            AppView()
-        }
-        .modelContainer(container)
-    }
+
+
+   var body: some Scene {
+       WindowGroup {
+           AppView()
+       }
+       .modelContainer(container)
+   }
 }
-
-

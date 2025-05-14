@@ -107,7 +107,11 @@ struct MainListView: View {
             }
             // 단어 상세화면으로 이동
             .navigationDestination(item: $selectedWord) { word in
+ feature/add-detail-update-view
+                UpdateView(existingWord: word)
+
                 DetailView(word: word)
+
             }
             // 단어 추가화면으로 이동
             .navigationDestination(isPresented: $isShowingCreateView) {

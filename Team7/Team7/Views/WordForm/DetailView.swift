@@ -26,7 +26,7 @@ struct DetailView: View {
                     onDeleted?()
                     dismiss()
                 }
-
+                
                 Spacer()
 
                 Button("수정") {
