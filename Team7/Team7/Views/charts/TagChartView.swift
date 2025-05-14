@@ -23,6 +23,7 @@ struct TagChartView: View {
             .foregroundStyle(by: .value("태그 이름", element.tagName))
         }
 
+        
         .chartBackground { chartProxy in
             GeometryReader { geometry in
                 if let anchor = chartProxy.plotFrame {

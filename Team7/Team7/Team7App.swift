@@ -18,7 +18,6 @@ struct Team7App: App {
             print("성공 :  \(container)")
         } catch {
             fatalError("실패 : \(error)")
-
         }
     }
 
