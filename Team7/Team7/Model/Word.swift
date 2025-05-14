@@ -13,7 +13,7 @@ import SwiftData
 final class Word {
     var wordName: String // 단어 이름
     var wordDefinition: String // 단어 뜻
-    var tag: String? // 태그, 옵셔널 항목이므로 사용 시에는 unwrapping 필요
+    var tag: String? // 태그, 옵셔널 항목이므로 사용 시에는 unwrapping 필요, Tag.name 을 String 으로 전달 받아 사용하기 위해 단순하게 String? 타입으로 지정
     var createdAt: Date // 생성일
     
     init(
