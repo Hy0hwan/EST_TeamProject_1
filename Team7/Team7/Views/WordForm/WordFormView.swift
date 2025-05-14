@@ -36,6 +36,7 @@ struct WordFormView: View {
                         
                     } label: {
                         Text("취소")
+
                             .foregroundColor(.blue)
                     }
 
