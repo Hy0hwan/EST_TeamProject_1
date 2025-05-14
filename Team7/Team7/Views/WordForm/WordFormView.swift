@@ -32,8 +32,11 @@ struct WordFormView: View {
         NavigationStack {
             VStack(spacing: 40) {
                 HStack {
-                    Button("취소") {
-                    
+                    Button {
+                        
+                    } label: {
+                        Text("취소")
+                            .foregroundColor(.blue)
                     }
 
                     Spacer()

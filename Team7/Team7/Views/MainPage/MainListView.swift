@@ -114,6 +114,10 @@ struct MainListView: View {
                 Text("단어 추가화면 (임시)")
                     .font(.title)
                     .padding()
+                
+                //여기에다가
+                
+                
             }
             .navigationBarHidden(true)
         }
