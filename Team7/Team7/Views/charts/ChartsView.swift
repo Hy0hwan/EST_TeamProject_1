@@ -18,29 +18,29 @@ struct TagData {
     var count: Int
 }
 
-extension TagData {
-    
-    static func monthData() -> [MonthData] {
-        [
-            MonthData(monthName: "1월", count: 4),
-            MonthData(monthName: "2월", count: 6),
-            MonthData(monthName: "3월", count: 9),
-            MonthData(monthName: "4월", count: 3),
-            MonthData(monthName: "5월", count: 4),
-            MonthData(monthName: "6월", count: 6),
-            MonthData(monthName: "7월", count: 9),
-            MonthData(monthName: "8월", count: 3),
-            MonthData(monthName: "9월", count: 4),
-            MonthData(monthName: "10월", count: 6),
-            MonthData(monthName: "11월", count: 9),
-            MonthData(monthName: "12월", count: 3),
-        ]
-    }
+struct MonthsData {
+    var monthName: String
+    var count: Int
 }
+
 
 struct ChartsView: View {
     @State private var selectedChart: ChartType = .month
     @Query var tags: [Tag]
+    
+    var monthData: [MonthsData] {
+        let calendar = Calendar.current
+        let grouped = Dictionary(grouping: tags) { a in
+            calendar.component(.month, from: a.createdAt) // 1~12월 숫자
+            
+        }
+        
+        return (1...12).map { monthNumber in
+            let count = grouped[monthNumber]?.count ?? 0
+            return MonthsData(monthName: "\(monthNumber)월", count: count)
+        }
+    }
+
     
     var tagData: [TagData] {
         Dictionary(grouping: tags, by: { a in a.name })
@@ -48,6 +48,7 @@ struct ChartsView: View {
                 TagData(tagName: key, count: value.count)
             }
     }
+
 
     var body: some View {
         VStack {
@@ -60,7 +61,10 @@ struct ChartsView: View {
             
             
             if selectedChart == .month {
-                MonthChartView(data: TagData.monthData())
+                MonthChartView(data: monthData)
+//                    .onAppear {
+//                        print("월별 데이터 : \(monthData)")
+//                    }
             } else {
                 TagChartView(data: tagData)
                     .onAppear{

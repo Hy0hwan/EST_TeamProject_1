@@ -8,14 +8,8 @@
 import SwiftUI
 import Charts
 
-struct MonthData {
-    var monthName: String
-    var count: Int
-}
-
-
 struct MonthChartView: View {
-    var data: [MonthData]
+    var data: [MonthsData]
     
     var body: some View {
         List {
@@ -46,13 +40,13 @@ struct MonthChartView: View {
     }
 }
 
-#Preview {
-    MonthChartView(data: [
-        MonthData(monthName: "1월", count: 4),
-        MonthData(monthName: "2월", count: 6),
-        MonthData(monthName: "3월", count: 9),
-        MonthData(monthName: "4월", count: 3),
-        MonthData(monthName: "5월", count: 4)
-    ])
-}
+//#Preview {
+//    MonthChartView(data: [
+//        MonthData(monthName: "1월", count: 4),
+//        MonthData(monthName: "2월", count: 6),
+//        MonthData(monthName: "3월", count: 9),
+//        MonthData(monthName: "4월", count: 3),
+//        MonthData(monthName: "5월", count: 4)
+//    ])
+//}
 
