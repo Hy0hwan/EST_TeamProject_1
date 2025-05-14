@@ -9,6 +9,8 @@ import SwiftUI
 import SwiftData
 
 struct MainListView: View {
+    var monthName: String?
+    
     @Environment(\.modelContext) private var context
     @Query var words: [Word]
     @State private var searchText: String = ""
@@ -16,6 +18,7 @@ struct MainListView: View {
     @State private var isShowingDetailView = false
     @State private var selectedWord: Word? = nil
     @State private var selectedTag: String? = nil
+    
 
     var filteredWords: [Word] {
         words.filter { word in
@@ -48,6 +51,9 @@ struct MainListView: View {
                     .padding(.horizontal)
                     .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray.opacity(0.4)))
                     .padding(.horizontal)
+                    .onAppear {
+                        print("11 : \(monthName)")
+                    }
 
                     MonthFilterBar()
 
@@ -123,6 +129,6 @@ struct MainListView: View {
     }
 }
 
-#Preview {
-    MainListView()
-}
+//#Preview {
+//    MainListView()
+//}
