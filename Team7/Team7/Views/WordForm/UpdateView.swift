@@ -9,7 +9,7 @@
 import SwiftUI
 import SwiftData
 
-struct WordFormView: View {
+struct UpdateView: View {
     @Environment(\.modelContext) private var context
 
     @State private var protocolword: String = ""
@@ -106,7 +106,7 @@ struct WordFormView: View {
                     destination: {
                         Group {
                             if let word = savedWord {
-                                WordFormView2(word: word)
+                                DetailView(word: word)
                             } else {
                                 EmptyView()
                             }
@@ -123,5 +123,5 @@ struct WordFormView: View {
     }
 }
 #Preview {
-    WordFormView()
+    UpdateView()
 }

@@ -7,7 +7,7 @@
 import SwiftUI
 import SwiftData
 
-struct WordFormView2: View {
+struct DetailView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
 
@@ -83,7 +83,7 @@ struct WordFormView2: View {
             Spacer()
 
             // 수정 화면으로 이동하는 NavigationLink
-            NavigationLink(destination: WordFormView(existingWord: word), isActive: $isShowingEdit) {
+            NavigationLink(destination: UpdateView(existingWord: word), isActive: $isShowingEdit) {
                 EmptyView()
             }
             .hidden()
@@ -106,6 +106,6 @@ struct WordFormView2: View {
         tag: "태그",
         createdAt: .now
     )
-    return WordFormView2(word: previewWord)
+    return DetailView(word: previewWord)
 }
 // temporary comment for PR

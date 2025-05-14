@@ -26,7 +26,7 @@ struct CreateView: View {
                         dismiss()
                     } label: {
                         Text("취소")
-                            .foregroundColor(.blue)
+                            
                     }
 
                     Spacer()
@@ -52,7 +52,7 @@ struct CreateView: View {
 
                 
                 VStack(spacing: 20) {
-                    TextField("Protocol", text: $wordName)
+                    TextField("단어 입력", text: $wordName)
                         .padding(.horizontal, 12)
                         .frame(height: 45)
                         .background(
