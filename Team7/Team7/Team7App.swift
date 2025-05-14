@@ -10,7 +10,8 @@ import SwiftData
 
 @main
 struct Team7App: App {
-    let container: ModelContainer
+   let container: ModelContainer
+
 
     init() {
         do {
@@ -18,16 +19,15 @@ struct Team7App: App {
             print("성공 :  \(container)")
         } catch {
             fatalError("실패 : \(error)")
-
         }
     }
 
-    var body: some Scene {
-        WindowGroup {
-            AppView()
-        }
-        .modelContainer(container)
-    }
+
+
+   var body: some Scene {
+       WindowGroup {
+           AppView()
+       }
+       .modelContainer(container)
+   }
 }
-
-

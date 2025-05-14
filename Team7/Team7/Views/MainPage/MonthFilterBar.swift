@@ -10,34 +10,36 @@ import SwiftUI
 struct MonthFilterBar: View {
     @State private var selectedYear: Int = Calendar.current.component(.year, from: Date())
     @State private var selectedMonth: Int = Calendar.current.component(.month, from: Date())
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                Button(action: {
-                    moveMonth(by: -1)
-                }) {
-                    Image(systemName: "chevron.left")
-                        .font(.title2)
-                        .padding(.horizontal)
-                }
-
+                Button (
+                    action: { moveMonth(by: -1) },
+                    label: {
+                        Image(systemName: "chevron.left")
+                            .font(.title2)
+                            .padding(.horizontal)
+                    }
+                )
+                
                 Text("\(String(selectedYear))년 \(selectedMonth)월")
-                    .font(.title3)
+                    .font(.subheadline)
                     .padding(.vertical, 6)
                     .padding(.horizontal, 18)
                     .background(
                         RoundedRectangle(cornerRadius: 18)
                             .fill(Color.gray.opacity(0.15))
                     )
-
-                Button(action: {
-                    moveMonth(by: 1)
-                }) {
-                    Image(systemName: "chevron.right")
-                        .font(.title2)
-                        .padding(.horizontal)
-                }
+                
+                Button(
+                    action: { moveMonth(by: 1) },
+                    label: {
+                        Image(systemName: "chevron.right")
+                            .font(.title2)
+                            .padding(.horizontal)
+                    }
+                )
             }
             .frame(maxWidth: .infinity)
         }
@@ -50,7 +52,7 @@ struct MonthFilterBar: View {
             selectedYear = calendar.component(.year, from: newDate)
             selectedMonth = calendar.component(.month, from: newDate)
         }
-
+        
     }
 }
 

@@ -28,7 +28,6 @@ struct WordRowView: View {
 #Preview {
     // 샘플 태그 생성
     let sampleTag = "문법"
-    // 샘플 단어 생성
     let sampleWord = Word(
         wordName: "옵셔널",
         wordDefinition: "값이 있을 수도, 없을 수도 있는 타입.",

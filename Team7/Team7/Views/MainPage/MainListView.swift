@@ -13,7 +13,7 @@ struct MainListView: View {
     @Query var words: [Word]
     @State private var searchText: String = ""
     @State private var isShowingCreateView = false
-    @State private var isShowingWordFormView = false
+    @State private var isShowingDetailView = false
     @State private var selectedWord: Word? = nil
     @State private var selectedTag: String? = nil
 
@@ -49,6 +49,8 @@ struct MainListView: View {
                     .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray.opacity(0.4)))
                     .padding(.horizontal)
 
+                    MonthFilterBar()
+
                     Text("태그")
                         .font(.subheadline)
                         .fontWeight(.bold)
@@ -60,7 +62,6 @@ struct MainListView: View {
                     // 단어 리스트
                     List {
                             ForEach(filteredWords) { word in
-                                // 단어 카드를 누르면 상세화면으로 이동 (임시 Text)
                                 Button {
                                     selectedWord = word
                                 } label: {
@@ -104,7 +105,11 @@ struct MainListView: View {
             }
             // 단어 상세화면으로 이동
             .navigationDestination(item: $selectedWord) { word in
+ feature/add-detail-update-view
                 UpdateView(existingWord: word)
+
+                DetailView(word: word)
+
             }
             // 단어 추가화면으로 이동
             .navigationDestination(isPresented: $isShowingCreateView) {
