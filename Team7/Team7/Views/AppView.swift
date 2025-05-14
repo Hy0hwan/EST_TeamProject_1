@@ -19,23 +19,23 @@ struct AppView: View {
     
     var body: some View {
         VStack {
-//            HStack {
-//                Button {
-//                    isSeedDataViewOpen = true
-//                } label: {
-//                    Label("시드 데이터 관리하기", systemImage: "drop.fill")
-//                        .font(.footnote)
-//                }
-//
-//                Spacer()
-//
-//                TagContainerView(tag: "문법", isButtonType: true)
-//            }
-//            .padding()
-//            .sheet(isPresented: $isSeedDataViewOpen) {
-//                SeedDataInsertView()
-//                    .presentationDetents([.medium])
-//            }
+            HStack {
+                Button {
+                    isSeedDataViewOpen = true
+                } label: {
+                    Label("시드 데이터 관리하기", systemImage: "drop.fill")
+                        .font(.footnote)
+                }
+
+                Spacer()
+
+                TagContainerView(tag: "문법", isButtonType: true)
+            }
+            .padding()
+            .sheet(isPresented: $isSeedDataViewOpen) {
+                SeedDataInsertView()
+                    .presentationDetents([.medium])
+            }
 
             // 탭 뷰
             TabView(selection: $appState.selectedTab) {

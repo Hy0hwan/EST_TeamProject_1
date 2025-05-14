@@ -100,6 +100,7 @@ extension TagListSheetView {
     
     // 새로운 태그를 저장하기
     func saveTag(context: ModelContext, tagName: String) {
+        print(#function, #line, tags.map({ $0.name }))
         if tags.first(where: { $0.name == tagName }) != nil {
             isSameTagNameExisting = true
         } else {
