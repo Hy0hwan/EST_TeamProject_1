@@ -104,7 +104,7 @@ struct MainListView: View {
             }
             // 단어 상세화면으로 이동
             .navigationDestination(item: $selectedWord) { word in
-                WordFormView(existingWord: word)
+                UpdateView(existingWord: word)
             }
             // 단어 추가화면으로 이동
             .navigationDestination(isPresented: $isShowingCreateView) {
