@@ -20,6 +20,7 @@ struct MainListView: View {
     @State private var selectedTag: String? = nil
     @State var selectedYear: Int = Calendar.current.component(.year, from: Date())
     @State var selectedMonth: Int = Calendar.current.component(.month, from: Date())
+    @State private var refreshID = UUID()
 
 
     func parseMonth(monthName: String?) -> (year: Int, month: Int)? {
@@ -57,7 +58,6 @@ struct MainListView: View {
             return matchesMonth && matchesSearch && matchesTag
         }
     }
-// test
 
     var body: some View {
         NavigationStack {
@@ -110,6 +110,7 @@ struct MainListView: View {
                                 } label: {
                                     WordRowView(word: word)
                                 }
+                                .id(refreshID)
                                 .swipeActions(edge: .trailing) {
                                     Button(role: .destructive) {
                                         deleteWord(word)
@@ -159,6 +160,9 @@ struct MainListView: View {
                 CreateView()
             }
             .navigationBarHidden(true)
+            .onAppear {
+                refreshID = UUID()
+            }
         }
     }
 
