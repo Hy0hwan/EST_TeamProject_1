@@ -15,11 +15,14 @@ struct UpdateView: View {
 
     
     @State private var protocolword: String = ""
-    @State private var tag: String = ""
+    @State var tag: String = ""
     @State private var meaning: String = ""
 
     @State private var navigateToDetail = false
     @State private var savedWord: Word? = nil
+    
+    @State private var isShowingTagSheet = false
+
 
     var existingWord: Word? = nil
 
@@ -82,15 +85,25 @@ struct UpdateView: View {
                                 .stroke(Color.gray.opacity(0.5), lineWidth: 1)
                         )
 
-                    TextField("태그", text: $tag)
+
+                    Button {
+                        isShowingTagSheet = true
+                    } label: {
+                        HStack {
+                            Text(tag.isEmpty ? "태그 선택" : tag)
+                                .foregroundColor(tag.isEmpty ? .gray : .black)
+                            Spacer()
+                        }
                         .padding(.horizontal, 12)
                         .frame(height: 45)
                         .background(
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.gray.opacity(0.5), lineWidth: 1)
                         )
-                        // 선택이 되면 .시트로 문법view 띄우고 여기 문법에 value <-> tag
+                    }
 
+                    
+                    
                     TextEditor(text: $meaning)
                         .frame(height: 200)
                         .padding(.top, 8)
@@ -124,6 +137,9 @@ struct UpdateView: View {
 
             }
         }
+        .sheet(isPresented: $isShowingTagSheet) {
+            TagListSheetView(isTagSheetOpen: $isShowingTagSheet, selectedTagName: $tag)
+        }       
     }
 }
 #Preview {
