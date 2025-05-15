@@ -62,10 +62,6 @@ struct CreateView: View {
                                 .stroke(Color.gray.opacity(0.5), lineWidth: 1)
                         )
                     
-                    Text("선택된 태그: \(tag)") // ✅ 이 줄 추가
-                        .foregroundColor(.gray)
-                        .font(.footnote)
-
                     Button {
                         isShowingTagSheet = true
                     } label: {
