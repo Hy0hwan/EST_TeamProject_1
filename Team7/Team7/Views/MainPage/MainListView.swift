@@ -10,7 +10,7 @@ import SwiftData
 
 struct MainListView: View {
     var monthName: String?
-    
+
     @Environment(\.modelContext) private var context
     @Query var words: [Word]
     @State private var searchText: String = ""
@@ -21,7 +21,7 @@ struct MainListView: View {
     @State var selectedYear: Int = Calendar.current.component(.year, from: Date())
     @State var selectedMonth: Int = Calendar.current.component(.month, from: Date())
 
-    
+
     func parseMonth(monthName: String?) -> (year: Int, month: Int)? {
         // 옵셔널 문자열이 nil이면 바로 종료
         guard let monthName = monthName else { return nil }
@@ -44,14 +44,20 @@ struct MainListView: View {
         return nil
     }
 
-    
+
     var filteredWords: [Word] {
         words.filter { word in
+            let date = word.createdAt
+            let year = Calendar.current.component(.year, from: date)
+            let month = Calendar.current.component(.month, from: date)
+            let matchesMonth = (year == selectedYear) && (month == selectedMonth)
+
             let matchesSearch = searchText.isEmpty || word.wordName.localizedStandardContains(searchText)
             let matchesTag = selectedTag == nil || word.tag == selectedTag
-            return matchesSearch && matchesTag
+            return matchesMonth && matchesSearch && matchesTag
         }
     }
+// test
 
     var body: some View {
         NavigationStack {
@@ -85,7 +91,7 @@ struct MainListView: View {
                         print("년 : \(selectedYear)")
                         print("월 : \(selectedMonth)")
                     }
-        
+
                     MonthFilterBar(selectedYear: $selectedYear, selectedMonth: $selectedMonth)
 
                     Text("태그")
@@ -112,14 +118,14 @@ struct MainListView: View {
                                     }
                                 }
                                 .listRowSeparator(.hidden)
-                        
+
                             }
                         }
                     .listStyle(.plain)
                     }
 
                     Spacer()
-                
+
 
                 // 오른쪽 아래 +버튼
                 VStack {
