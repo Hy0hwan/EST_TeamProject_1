@@ -16,7 +16,7 @@ struct CreateView: View {
     
     @State private var wordName: String = ""
     @State private var wordDefinition: String = ""
-    @State private var tag: String = "" // 상태값 -> 태그 이름
+    @State var tag: String = "" // 상태값 -> 태그 이름
     @State private var isShowingTagSheet = false
 
     var body: some View {
@@ -61,6 +61,10 @@ struct CreateView: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.gray.opacity(0.5), lineWidth: 1)
                         )
+                    
+                    Text("선택된 태그: \(tag)") // ✅ 이 줄 추가
+                        .foregroundColor(.gray)
+                        .font(.footnote)
 
                     Button {
                         isShowingTagSheet = true
@@ -93,7 +97,7 @@ struct CreateView: View {
                 Spacer()
             }
             .sheet(isPresented: $isShowingTagSheet) {
-                TagListSheetView(isTagSheetOpen: $isShowingTagSheet)
+                TagListSheetView(isTagSheetOpen: $isShowingTagSheet, selectedTagName: $tag)
             }            
         }
     }

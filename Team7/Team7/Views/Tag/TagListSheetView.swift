@@ -15,6 +15,8 @@ struct TagListSheetView: View {
     @State var tags: [Tag] = []
     
     @Binding var isTagSheetOpen: Bool
+    @Binding var selectedTagName: String // 태그 이름을 바인딩하기위해 새로 추가 : 효환
+
     @State var isSameTagNameExisting = false
     
     @State private var tagName = ""
@@ -31,6 +33,7 @@ struct TagListSheetView: View {
                         ForEach($tags) { tag in
                             Button {
                                 selectedTag = tag.wrappedValue // @경언님: 여기서 selectedTag 가 유저가 선택한 이름으로 업데이트됨
+                                selectedTagName = tag.wrappedValue.name
                                 isTagSheetOpen = false // 유저가 태그를 선택하면 시트가 닫히게 하기
                             } label: {
                                 TagView(tag: tag.wrappedValue)
@@ -138,6 +141,6 @@ struct SectionTitle: View {
     }
 }
 
-#Preview {
-    TagListSheetView(isTagSheetOpen: .constant(false))
-}
+//#Preview {
+//    TagListSheetView(isTagSheetOpen: $isShowingTagSheet, selectedTagName: $tag)
+//}
