@@ -18,11 +18,33 @@ struct MainListView: View {
     @State private var isShowingDetailView = false
     @State private var selectedWord: Word? = nil
     @State private var selectedTag: String? = nil
-    @State private var selectedYear: Int = Calendar.current.component(.year, from: Date())
-    @State private var selectedMonth: Int = Calendar.current.component(.month, from: Date())
+    @State var selectedYear: Int = Calendar.current.component(.year, from: Date())
+    @State var selectedMonth: Int = Calendar.current.component(.month, from: Date())
 
     
+    func parseMonth(monthName: String?) -> (year: Int, month: Int)? {
+        // 옵셔널 문자열이 nil이면 바로 종료
+        guard let monthName = monthName else { return nil }
 
+        // "2025년 7월" → "2025 7"
+        // "년"과 "월"을 공백으로 바꾸고 공백 기준으로 분리
+        let components = monthName
+            .replacingOccurrences(of: "년", with: "")   // "2025년 7월" → "2025 7월"
+            .replacingOccurrences(of: "월", with: "")   // "2025 7월" → "2025 7"
+            .components(separatedBy: " ")              // "2025 7" → ["2025", "7"] 배열로 반환
+
+        // 분리된 값이 정확히 2개이고, 둘 다 Int로 변환 가능한 경우
+        if components.count == 2,
+           let year = Int(components[0]),             // 첫 번째 요소 "2025" → 2025(Int)
+           let month = Int(components[1]) {           // 두 번째 요소 "7" → 7(Int)
+            return (year, month)                      // 튜플로 반환
+        }
+
+        // 파싱 실패한 경우 nil 반환
+        return nil
+    }
+
+    
     var filteredWords: [Word] {
         words.filter { word in
             let matchesSearch = searchText.isEmpty || word.wordName.localizedStandardContains(searchText)
@@ -55,10 +77,15 @@ struct MainListView: View {
                     .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray.opacity(0.4)))
                     .padding(.horizontal)
                     .onAppear {
-                        print("11 : \(monthName)")
-                        // 데이터확인
+                        print(monthName)
+                        if let parsed = parseMonth(monthName: monthName) {
+                            selectedYear = parsed.year
+                            selectedMonth = parsed.month
+                        }
+                        print("년 : \(selectedYear)")
+                        print("월 : \(selectedMonth)")
                     }
-
+        
                     MonthFilterBar(selectedYear: $selectedYear, selectedMonth: $selectedMonth)
 
                     Text("태그")
@@ -85,6 +112,7 @@ struct MainListView: View {
                                     }
                                 }
                                 .listRowSeparator(.hidden)
+                        
                             }
                         }
                     .listStyle(.plain)

@@ -13,8 +13,8 @@ import SwiftData
 struct TagContainerView: View {
     @Environment(\.modelContext) var context
     
-    var tag: String // 다른 뷰에서 전달 받은 String 값을 저장하기 위한 변수
-    
+    @State var tag: String = "" // 상태값 -> 태그 이름
+
     @State var isTagSheetOpen = false
     @State var isButtonType = false // 태그 선택 시트를 열기 위한 버튼일 경우 true
     
@@ -30,7 +30,7 @@ struct TagContainerView: View {
                     )
                 }
                 .sheet(isPresented: $isTagSheetOpen, content: {
-                    TagListSheetView(isTagSheetOpen: $isTagSheetOpen)
+                    TagListSheetView(isTagSheetOpen: $isTagSheetOpen, selectedTagName: $tag)
                         .presentationDetents([.medium])
                 })
             } else {

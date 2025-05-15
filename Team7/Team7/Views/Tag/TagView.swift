@@ -53,15 +53,15 @@ struct TagView: View {
             if tag != nil {
                 Text(tag!.name)
                     .font(.footnote)
-                    .padding(.horizontal, 4)
-                    .padding(.vertical, 2)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 4)
                     .background(
                         Color(
                             hexString: TagColors(rawValue: tag!.tagColor)?.hex ?? "000000",
                             opacity: 0.5
                         )
                     )
-                    .clipShape(RoundedRectangle(cornerRadius: 2))
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
                     .foregroundStyle(.foreground.opacity(0.8))
                     .onAppear {
                         
