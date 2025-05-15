@@ -89,6 +89,7 @@ struct UpdateView: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.gray.opacity(0.5), lineWidth: 1)
                         )
+                        // 선택이 되면 .시트로 문법view 띄우고 여기 문법에 value <-> tag
 
                     TextEditor(text: $meaning)
                         .frame(height: 200)

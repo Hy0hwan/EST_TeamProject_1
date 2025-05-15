@@ -10,6 +10,8 @@ import Charts
 
 
 
+
+
 struct MonthChartView: View {
     var data: [MonthsData]
     var selectMonth: (String) -> Void
@@ -20,7 +22,7 @@ struct MonthChartView: View {
                     Text("2025년 \(item.monthName)")
                     Spacer()
                     Button {
-                        selectMonth(item.monthName)
+                        selectMonth("2025년 \(item.monthName)")
                     } label: {
                         Text("\(item.count)개")
                             .foregroundColor(.blue)
