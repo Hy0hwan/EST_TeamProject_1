@@ -16,19 +16,21 @@ struct CreateView: View {
     
     @State private var wordName: String = ""
     @State private var wordDefinition: String = ""
-    @State private var tag: String = ""
+    @State private var tag: String = "" // 상태값 -> 태그 이름
+    @State private var isShowingTagSheet = false
 
     var body: some View {
         NavigationStack {
             VStack(spacing: 40) {
+                // 상단 버튼
                 HStack {
                     Button {
                         dismiss()
                     } label: {
                         Text("취소")
-                            
                     }
                     .navigationBarBackButtonHidden(true)
+
                     Spacer()
 
                     Button {
@@ -44,13 +46,13 @@ struct CreateView: View {
                 .padding(.horizontal)
                 .padding(.top)
 
-                
+                // 제목
                 Text("단어 작성")
                     .font(.title2)
                     .bold()
                     .frame(height: 20)
 
-                
+                // 입력 필드
                 VStack(spacing: 20) {
                     TextField("단어 입력", text: $wordName)
                         .padding(.horizontal, 12)
@@ -60,13 +62,21 @@ struct CreateView: View {
                                 .stroke(Color.gray.opacity(0.5), lineWidth: 1)
                         )
 
-                    TextField("태그", text: $tag)
+                    Button {
+                        isShowingTagSheet = true
+                    } label: {
+                        HStack {
+                            Text(tag.isEmpty ? "태그 선택" : tag)
+                                .foregroundColor(tag.isEmpty ? .gray : .black)
+                            Spacer()
+                        }
                         .padding(.horizontal, 12)
                         .frame(height: 45)
                         .background(
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.gray.opacity(0.5), lineWidth: 1)
                         )
+                    }
 
                     TextEditor(text: $wordDefinition)
                         .frame(height: 200)
@@ -82,6 +92,9 @@ struct CreateView: View {
 
                 Spacer()
             }
+            .sheet(isPresented: $isShowingTagSheet) {
+                TagListSheetView(isTagSheetOpen: $isShowingTagSheet)
+            }            
         }
     }
 }
@@ -89,4 +102,5 @@ struct CreateView: View {
 #Preview {
     CreateView()
 }
+
 
