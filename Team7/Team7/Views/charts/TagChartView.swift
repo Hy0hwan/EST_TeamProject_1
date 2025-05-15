@@ -22,7 +22,7 @@ struct TagChartView: View {
             .cornerRadius(8)
             .foregroundStyle(by: .value("태그 이름", element.tagName))
         }
-
+// 머지테스트
         
         .chartBackground { chartProxy in
             GeometryReader { geometry in
