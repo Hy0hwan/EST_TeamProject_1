@@ -10,37 +10,37 @@ import SwiftData
 struct DetailView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
-
-    @State private var isShowingEdit = false  // 수정 화면 전환용
-
+    
+    @State private var isShowingEdit = false
+    @State private var showDeleteAlert = false
+    
     var word: Word
     var onDeleted: (() -> Void)? = nil
-
+    
     var body: some View {
-        VStack(spacing: 15) {
+        VStack {
             HStack {
-                Button("삭제") {
-                    context.delete(word)
-                    try? context.save()
-                    print("삭제 성공: \(word.wordName)")
-                    onDeleted?()
-                    dismiss()
+                Button {
+                    showDeleteAlert = true
+                } label: {
+                    Text("삭제")
                 }
                 
                 Spacer()
-
-                Button("수정") {
-                    isShowingEdit = true  // 수정 버튼 누르면 상태 변경
+                
+                Button {
+                    isShowingEdit = true
+                } label: {
+                    Text("수정")
                 }
             }
             .padding(.horizontal)
-            .padding(.top)
-
+            
             Text("단어 상세")
                 .font(.title2)
                 .bold()
                 .frame(height: 20)
-
+            
             HStack(spacing: 4) {
                 Text(word.wordName)
                     .font(.body)
@@ -60,7 +60,7 @@ struct DetailView: View {
             .background(Color(.systemGray6))
             .cornerRadius(12)
             .padding(.horizontal)
-
+            
             HStack {
                 Text(formattedDate(word.createdAt))
                     .font(.subheadline)
@@ -68,7 +68,7 @@ struct DetailView: View {
                 Spacer()
             }
             .padding(.horizontal)
-
+            
             HStack(spacing: 4) {
                 Text(word.wordDefinition)
                     .font(.body)
@@ -79,17 +79,36 @@ struct DetailView: View {
             .background(Color(.systemGray6))
             .cornerRadius(12)
             .padding(.horizontal)
-
+            
             Spacer()
-
-            // 수정 화면으로 이동하는 NavigationLink
-            NavigationLink(destination: UpdateView(existingWord: word), isActive: $isShowingEdit) {
+            
+            NavigationLink(
+                destination: UpdateView(existingWord: word, isUpdatePresent: $isShowingEdit),
+                isActive: $isShowingEdit
+            ) {
                 EmptyView()
             }
             .hidden()
         }
+        
+        .alert("삭제하시겠습니까?", isPresented: $showDeleteAlert) {
+            Button(role: .destructive) {
+                context.delete(word)
+                try? context.save()
+                onDeleted?()
+                dismiss()
+            } label: {
+                Label("삭제", systemImage: "trash")
+            }
+            
+            Button(role: .cancel) {
+                
+            } label: {
+                Label("취소", systemImage: "xmark")
+            }
+        }
     }
-
+    
     func formattedDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy. MM. dd"
@@ -97,15 +116,9 @@ struct DetailView: View {
     }
 }
 
-
-
 #Preview {
-    let previewWord = Word(
-        wordName: "단어 제목",
-        wordDefinition: "뜻",
-        tag: "태그",
-        createdAt: .now
-    )
-    return DetailView(word: previewWord)
+    DetailView(word: Word(wordName: "예제 단어",wordDefinition: "예제 뜻",
+    tag: "예제태그",createdAt: .now))
 }
-// temporary comment for PR
+
+

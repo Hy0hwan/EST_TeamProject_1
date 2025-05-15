@@ -12,136 +12,88 @@ import SwiftData
 struct UpdateView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) var dismiss
-
+    @Binding var isUpdatePresent: Bool
     
     @State private var protocolword: String = ""
-    @State var tag: String = ""
+    @State private var tag: String = ""
     @State private var meaning: String = ""
-
-    @State private var navigateToDetail = false
-    @State private var savedWord: Word? = nil
     
-    @State private var isShowingTagSheet = false
-
-
-    var existingWord: Word? = nil
-
-    init(existingWord: Word? = nil) {
+    var existingWord: Word?
+    
+    
+    init(existingWord: Word? = nil, isUpdatePresent: Binding<Bool>) {
         self.existingWord = existingWord
+        self._isUpdatePresent = isUpdatePresent
         _protocolword = State(initialValue: existingWord?.wordName ?? "")
         _meaning = State(initialValue: existingWord?.wordDefinition ?? "")
         _tag = State(initialValue: existingWord?.tag ?? "")
     }
-
+    
     var body: some View {
         NavigationStack {
             VStack(spacing: 40) {
                 HStack {
-                    Button {
+                    Button("취소") {
+                        isUpdatePresent = false
                         dismiss()
-                    } label: {
-                        Text("취소")
-                        
                     }
                     
-                    .navigationBarBackButtonHidden(true)
-                    
                     Spacer()
-
+                    
                     Button("저장") {
-                        if let existingWord {
-                            existingWord.wordName = protocolword
-                            existingWord.wordDefinition = meaning
-                            existingWord.tag = tag
+                        if let word = existingWord {
+                            word.wordName = protocolword
+                            word.wordDefinition = meaning
+                            word.tag = tag
                             try? context.save()
-                            savedWord = existingWord
-                        } else {
-                            let newWord = Word(
-                                wordName: protocolword,
-                                wordDefinition: meaning,
-                                tag: tag
-                            )
-                            context.insert(newWord)
-                            savedWord = newWord
                         }
-
-                        navigateToDetail = true
+                        
+                        isUpdatePresent = false
+                        dismiss()
                     }
                 }
                 .padding(.horizontal)
                 .padding(.top)
-
-                Text(existingWord == nil ? "단어 작성" : "단어 수정")
+                
+                Text("단어 수정")
                     .font(.title2)
                     .bold()
-                    .frame(height: 20)
-
+                
                 VStack(spacing: 20) {
-                    TextField("Protocol", text: $protocolword)
+                    TextField("단어", text: $protocolword)
                         .padding(.horizontal, 12)
                         .frame(height: 45)
                         .background(
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.gray.opacity(0.5), lineWidth: 1)
                         )
-
-
-                    Button {
-                        isShowingTagSheet = true
-                    } label: {
-                        HStack {
-                            Text(tag.isEmpty ? "태그 선택" : tag)
-                                .foregroundColor(tag.isEmpty ? .gray : .black)
-                            Spacer()
-                        }
-                        .padding(.horizontal, 12)
-                        .frame(height: 45)
-                        .background(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.gray.opacity(0.5), lineWidth: 1)
-                        )
-                    }
-
                     
+                    TextField("태그", text: $tag)
+                        .padding(.horizontal, 12)
+                        .frame(height: 45)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.gray.opacity(0.5), lineWidth: 1)
+                        )
                     
                     TextEditor(text: $meaning)
+                        .padding(8)
                         .frame(height: 200)
-                        .padding(.top, 8)
-                        .padding(.horizontal, 4)
-                        .background(Color.white)
+                        .background(Color.clear)
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.gray.opacity(0.5), lineWidth: 1)
                         )
                 }
                 .padding(.horizontal)
-
+                
                 Spacer()
-
-                NavigationLink(
-                    isActive: $navigateToDetail,
-                    destination: {
-                        Group {
-                            if let word = savedWord {
-                                DetailView(word: word)
-                            } else {
-                                EmptyView()
-                            }
-                        }
-                    },
-                    label: {
-                        EmptyView()
-                    }
-                )
-                .hidden()
-
             }
         }
-        .sheet(isPresented: $isShowingTagSheet) {
-            TagListSheetView(isTagSheetOpen: $isShowingTagSheet, selectedTagName: $tag)
-        }       
     }
 }
 #Preview {
-    UpdateView()
+    UpdateView(isUpdatePresent: Binding.constant(false))
 }
+
+
