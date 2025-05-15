@@ -16,7 +16,7 @@ struct CreateView: View {
     
     @State private var wordName: String = ""
     @State private var wordDefinition: String = ""
-    @State private var tag: String = ""
+    @State private var tag: String = "" // 상태값 -> 태그 이름
     @State private var isShowingTagSheet = false
 
     var body: some View {
