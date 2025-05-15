@@ -1,12 +1,9 @@
 //
-//  CreateView.swift
+//  WordFormView2.swift
 //  Team7
 //
-//  Created by 김경언 on 5/13/25.
+//  Created by 김경언 on 5/12/25.
 //
-//  Created by 김경언 on 5/14/25.
-//
-
 import SwiftUI
 import SwiftData
 
@@ -16,13 +13,12 @@ struct CreateView: View {
     
     @State private var wordName: String = ""
     @State private var wordDefinition: String = ""
-    @State var tag: String = "" // 상태값 -> 태그 이름
+    @State var tag: String = ""
     @State private var isShowingTagSheet = false
-
+    
     var body: some View {
         NavigationStack {
             VStack(spacing: 40) {
-                // 상단 버튼
                 HStack {
                     Button {
                         dismiss()
@@ -30,9 +26,9 @@ struct CreateView: View {
                         Text("취소")
                     }
                     .navigationBarBackButtonHidden(true)
-
+                    
                     Spacer()
-
+                    
                     Button {
                         let newWord = Word(wordName: wordName, wordDefinition: wordDefinition, tag: tag)
                         context.insert(newWord)
@@ -45,56 +41,77 @@ struct CreateView: View {
                 }
                 .padding(.horizontal)
                 .padding(.top)
-
-                // 제목
+                
                 Text("단어 작성")
                     .font(.title2)
                     .bold()
                     .frame(height: 20)
-
-                // 입력 필드
+                
                 VStack(spacing: 20) {
-                    TextField("단어 입력", text: $wordName)
-                        .padding(.horizontal, 12)
-                        .frame(height: 45)
-                        .background(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.gray.opacity(0.5), lineWidth: 1)
-                        )
+                    
+                    ZStack(alignment: .leading) {
+                        if wordName.isEmpty {
+                            Text("단어 입력")
+                                .foregroundColor(.gray)
+                                .foregroundColor(Color("TextColor"))
+                                .padding(.leading, 12)
+                        }
+                        TextField("", text: $wordName)
+                            .foregroundColor(Color("TextColor"))
+                            .padding(.horizontal, 12)
+                    }
+                    .frame(height: 45)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color("DarkModeBorder"), lineWidth: 1))
                     
                     Button {
                         isShowingTagSheet = true
                     } label: {
                         HStack {
                             Text(tag.isEmpty ? "태그 선택" : tag)
-                                .foregroundColor(tag.isEmpty ? .gray : .black)
+                                .foregroundColor(tag.isEmpty ? .gray : Color("TextColor"))
                             Spacer()
                         }
                         .padding(.horizontal, 12)
                         .frame(height: 45)
-                        .background(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.gray.opacity(0.5), lineWidth: 1)
-                        )
-                    }
-
-                    TextEditor(text: $wordDefinition)
-                        .frame(height: 200)
-                        .padding(.top, 8)
-                        .padding(.horizontal, 4)
-                        .background(Color.white)
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.gray.opacity(0.5), lineWidth: 1)
-                        )
+                                .stroke(Color("DarkModeBorder"), lineWidth: 1))
+                    }
+                    
+                    ZStack(alignment: .topLeading) {
+                        if wordDefinition.isEmpty {
+                            Text("내용을 입력하세요.")
+                                .foregroundColor(.gray)
+                                .foregroundColor(Color("TextColor"))
+                                .padding(.top, 12)
+                                .padding(.leading, 12)
+                        }
+                        
+                        TextEditor(text: $wordDefinition)
+                            .foregroundColor(Color("TextColor"))
+                            .padding(.horizontal, 8)
+                            .padding(.top, 4)
+                            .textEditorStyle(.plain)
+                    }
+                    .frame(height: 200)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color("DarkModeBorder"), lineWidth: 2)
+                    )
+                    .cornerRadius(10)
+                    
                 }
                 .padding(.horizontal)
-
+                
                 Spacer()
             }
             .sheet(isPresented: $isShowingTagSheet) {
+                
                 TagListSheetView(isTagSheetOpen: $isShowingTagSheet, selectedTagName: $tag)
-            }            
+            }
+            
         }
     }
 }
@@ -102,5 +119,3 @@ struct CreateView: View {
 #Preview {
     CreateView()
 }
-
-
