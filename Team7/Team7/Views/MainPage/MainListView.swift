@@ -57,7 +57,6 @@ struct MainListView: View {
             return matchesMonth && matchesSearch && matchesTag
         }
     }
-// test
 
     var body: some View {
         NavigationStack {
