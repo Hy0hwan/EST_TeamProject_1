@@ -9,9 +9,6 @@ import SwiftUI
 import Charts
 
 
-
-
-
 struct MonthChartView: View {
     var data: [MonthsData]
     var selectMonth: (String) -> Void
