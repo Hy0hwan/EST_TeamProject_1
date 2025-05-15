@@ -54,11 +54,7 @@ struct MainListView: View {
                     .padding(.horizontal)
                     .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray.opacity(0.4)))
                     .padding(.horizontal)
-                    .onAppear {
-                        print("11 : \(monthName)")
-                        // 데이터확인
-                    }
-
+        
                     MonthFilterBar(selectedYear: $selectedYear, selectedMonth: $selectedMonth)
 
                     Text("태그")
@@ -85,6 +81,7 @@ struct MainListView: View {
                                     }
                                 }
                                 .listRowSeparator(.hidden)
+                        
                             }
                         }
                     .listStyle(.plain)
